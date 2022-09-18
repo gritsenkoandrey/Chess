@@ -2,6 +2,11 @@
 
 public sealed class Layers
 {
-    public static int Figure => LayerMask.GetMask(nameof(Figure));
-    public static int Board => LayerMask.GetMask(nameof(Board));
+    private static readonly string FIGURE = "Figure";
+    private static readonly string BOARD = "Board";
+    private static readonly string DEAFAULT = "Default";
+    
+    public static int Figure => LayerMask.NameToLayer(FIGURE);
+    public static int Default => LayerMask.NameToLayer(DEAFAULT);
+    public static int Board => LayerMask.NameToLayer(BOARD);
 }

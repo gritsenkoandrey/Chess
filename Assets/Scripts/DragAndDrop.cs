@@ -14,16 +14,19 @@ public sealed class DragAndDrop
     private readonly Dictionary<State, Action> _actions;
     
     public delegate void DropFigure (Vector3 from, Vector3 to);
+    public delegate void PickFigure (Vector3 from);
 
-    private readonly DropFigure _dFigure;
+    private readonly DropFigure _dropFigure;
+    private readonly PickFigure _pickFigure;
 
-    public DragAndDrop(DropFigure dropFigure)
+    public DragAndDrop(DropFigure dropFigure, PickFigure pickFigure)
     {
         _state = State.None;
         
         _item = null;
 
-        _dFigure = dropFigure;
+        _dropFigure = dropFigure;
+        _pickFigure = pickFigure;
         
         _actions = new Dictionary<State, Action>
         {
@@ -69,12 +72,14 @@ public sealed class DragAndDrop
             _item = item;
 
             _fromPosition = item.position;
+
+            _pickFigure(_fromPosition);
         }
     }
 
     private Transform GetFigure()
     {
-        if (Physics.Raycast(GetRay(), out RaycastHit hit, 100f, Layers.Figure))
+        if (Physics.Raycast(GetRay(), out RaycastHit hit, 100f, 1 << Layers.Figure))
         {
             return hit.collider.transform;
         }
@@ -84,7 +89,7 @@ public sealed class DragAndDrop
 
     private Vector3 GetBoardPosition()
     {
-        if (Physics.Raycast(GetRay(), out RaycastHit hit, 100f, Layers.Board))
+        if (Physics.Raycast(GetRay(), out RaycastHit hit, 100f, 1 << Layers.Board))
         {
             _position = hit.point;
         }
@@ -97,7 +102,7 @@ public sealed class DragAndDrop
     {
         _toPosition = _item.position;
 
-        _dFigure(_fromPosition, _toPosition);
+        _dropFigure(_fromPosition, _toPosition);
         
         _state = State.None;
 

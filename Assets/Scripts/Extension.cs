@@ -7,8 +7,11 @@ public static class Extension
         current.position = new Vector3(Mathf.RoundToInt(next.x), current.position.y, Mathf.RoundToInt(next.z));
     }
 
-    public static Vector3Int ConvertToVector3Int(this Vector3 vector)
+    public static string VectorToCell(this Vector3 vector)
     {
-        return new Vector3Int((int)vector.x, (int)vector.y, (int)vector.z);
+        int x = (int)vector.x;
+        int y = (int)vector.z;
+        
+        return (char)('a' + x) + (y + 1).ToString();
     }
 }

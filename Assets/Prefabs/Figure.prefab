@@ -85,6 +85,13 @@ MonoBehaviour:
   - {fileID: 7202364158947484441}
   - {fileID: 1854997149415061028}
   - {fileID: 1854997149949700864}
+  _collider: {fileID: 1832432408030738722}
+  _default:
+    serializedVersion: 2
+    m_Bits: 1
+  _figure:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1001 &1832432408255692319
 PrefabInstance:
   m_ObjectHideFlags: 0

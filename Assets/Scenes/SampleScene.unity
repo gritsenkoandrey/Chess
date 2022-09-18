@@ -433,6 +433,7 @@ MonoBehaviour:
   _cellWhite: {fileID: 5508861910251095116, guid: 95b58e33f4137084b9729ec2ec96403f,
     type: 3}
   _figure: {fileID: 885732822332023993, guid: 474f55b9146a0834cb3afc1cc7de5dc3, type: 3}
+  _cell: {fileID: 7100128783968405136, guid: 4b0b74224484efe4dae03e44e5bfd37d, type: 3}
   _cellsRoot: {fileID: 488369571}
   _figuresRoot: {fileID: 1179710960}
 --- !u!1 &488369570
