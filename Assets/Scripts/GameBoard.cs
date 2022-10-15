@@ -10,9 +10,11 @@ public sealed class GameBoard : MonoBehaviour
 
     [SerializeField] private Transform _cellsRoot;
     [SerializeField] private Transform _figuresRoot;
+    [SerializeField] private Transform _transformationsRoot;
     
     private readonly Dictionary<string, Cell> _cells = new (64);
     private readonly Dictionary<string, Figures> _figures = new (64);
+    private readonly Dictionary<FigureType, Figures> _transformations = new(8);
 
     private DragAndDrop _dragAndDrop;
 
@@ -21,7 +23,7 @@ public sealed class GameBoard : MonoBehaviour
     private readonly Color _black = Color.black;
     private readonly Color _white = Color.white;
     private readonly Color _green = Color.green;
-    private readonly Color _yellow = Color.yellow;
+    private readonly Color _red = Color.red;
 
     private void Awake()
     {
@@ -35,6 +37,7 @@ public sealed class GameBoard : MonoBehaviour
         InitGameBoard();
         ShowFigures();
         MarkCellsFrom();
+        InstantiateTransformations();
     }
 
     private void Update()
@@ -49,15 +52,69 @@ public sealed class GameBoard : MonoBehaviour
         {
             string key = $"{x}{y}";
 
-            Vector3 position = new Vector3(x, 0f, y);
-
-            _cells[key] = Instantiate(_cell, position, Quaternion.identity, _cellsRoot);
-            _cells[key].Renderer.material.color = (x + y) % 2 == 0 ? _black : _white;
-            
-            _figures[key] = Instantiate(_figure, position, Quaternion.identity, _figuresRoot);
-            _figures[key].ShowFigure(FigureType.None);
-            _figures[key].name = "None";
+            _cells[key] = InstantiateCell(x, y);
+            _figures[key] = InstantiateFigures(FigureType.None, x, y);
         }
+    }
+
+    private void InstantiateTransformations()
+    {
+        _transformations[FigureType.WhiteQueen] = InstantiateFigures(FigureType.WhiteQueen, 2, 9);
+        _transformations[FigureType.WhiteRock] = InstantiateFigures(FigureType.WhiteRock, 3, 9);
+        _transformations[FigureType.WhiteBishop] = InstantiateFigures(FigureType.WhiteBishop, 4, 9);
+        _transformations[FigureType.WhiteKnight] = InstantiateFigures(FigureType.WhiteKnight, 5, 9);
+
+        _transformations[FigureType.BlackQueen] = InstantiateFigures(FigureType.BlackQueen, 2, -2);
+        _transformations[FigureType.BlackRock] = InstantiateFigures(FigureType.BlackRock, 3, -2);
+        _transformations[FigureType.BlackBishop] = InstantiateFigures(FigureType.BlackBishop, 4, -2);
+        _transformations[FigureType.BlackKnight] = InstantiateFigures(FigureType.BlackKnight, 5, -2);
+
+        foreach (Figures figures in _transformations.Values)
+        {
+            figures.transform.SetParent(_transformationsRoot);
+            figures.gameObject.layer = Layers.Transformations;
+            figures.SetActive(false);
+        }
+    }
+
+    private void ShowTransformationsFigures(FigureType type = FigureType.None)
+    {
+        foreach (Figures figures in _transformations.Values)
+        {
+            figures.SetActive(false);
+        }
+
+        if (type == FigureType.WhitePawn)
+        {
+            _transformations[FigureType.WhiteQueen].SetActive(true);
+            _transformations[FigureType.WhiteRock].SetActive(true);
+            _transformations[FigureType.WhiteBishop].SetActive(true);
+            _transformations[FigureType.WhiteKnight].SetActive(true);
+        }
+        else if (type == FigureType.BlackPawn)
+        {
+            _transformations[FigureType.BlackQueen].SetActive(true);
+            _transformations[FigureType.BlackRock].SetActive(true);
+            _transformations[FigureType.BlackBishop].SetActive(true);
+            _transformations[FigureType.BlackKnight].SetActive(true);
+        }
+    }
+
+    private Cell InstantiateCell(int x, int y)
+    {
+        Cell cell = Instantiate(_cell, new Vector3(x, 0f, y), Quaternion.identity, _cellsRoot);
+        cell.Renderer.material.color = (x + y) % 2 == 0 ? _black : _white;
+
+        return cell;
+    }
+
+    private Figures InstantiateFigures(FigureType type, int x, int y)
+    {
+        Figures figures = Instantiate(_figure, new Vector3(x, 0f, y), Quaternion.identity, _figuresRoot);
+        figures.ShowFigure(type);
+        figures.name = $"{type}";
+
+        return figures;
     }
 
     private void ShowFigures()
@@ -77,8 +134,7 @@ public sealed class GameBoard : MonoBehaviour
             }
 
             _figures[key].ShowFigure(type);
-
-            _figures[key].name = type.ToString();
+            _figures[key].name = $"{type}";
         }
     }
     
@@ -145,7 +201,7 @@ public sealed class GameBoard : MonoBehaviour
                 _cells[key].RendererTwo.material.color = _green;
                 break;
             case CellMarkType.To:
-                _cells[key].RendererTwo.material.color = _yellow;
+                _cells[key].RendererTwo.material.color = _red;
                 break;
         }
     }

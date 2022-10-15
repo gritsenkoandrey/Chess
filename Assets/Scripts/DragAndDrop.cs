@@ -74,6 +74,8 @@ public sealed class DragAndDrop
             _fromPosition = item.position;
 
             _pickFigure(_fromPosition);
+
+            item.localScale = Vector3.one * 1.5f;
         }
     }
 
@@ -103,6 +105,8 @@ public sealed class DragAndDrop
         _toPosition = _item.position;
 
         _dropFigure(_fromPosition, _toPosition);
+        
+        _item.localScale = Vector3.one;
         
         _state = State.None;
 

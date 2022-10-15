@@ -17,4 +17,6 @@ public sealed class Figures : MonoBehaviour
             _figuresPrefabs[i].Renderer.enabled = _figuresPrefabs[i].Type == type;
         }
     }
+
+    public void SetActive(bool value) => gameObject.SetActive(value);
 }
