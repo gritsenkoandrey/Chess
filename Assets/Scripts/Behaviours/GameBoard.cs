@@ -3,10 +3,11 @@ using ChessRules;
 using Enums;
 using Extensions;
 using UnityEngine;
-using Color = UnityEngine.Color;
 
 namespace Behaviours
 {
+    using Color = UnityEngine.Color;
+
     public sealed class GameBoard : MonoBehaviour
     {
         [SerializeField] private Figures _figure;
@@ -28,6 +29,8 @@ namespace Behaviours
         private readonly Color _white = Color.white;
         private readonly Color _green = Color.green;
         private readonly Color _red = Color.red;
+
+        private string _onTransformationMove = "";
 
         private void Awake()
         {
@@ -76,7 +79,6 @@ namespace Behaviours
             foreach (Figures figures in _transformations.Values)
             {
                 figures.transform.SetParent(_transformationsRoot);
-                figures.gameObject.layer = Layers.Transformations;
                 figures.SetActive(false);
             }
         }
@@ -149,6 +151,32 @@ namespace Behaviours
             string figure = _chess.GetFigure((int)from.x, (int)from.z).ToString();
             string move = $"{figure}{e2}{e4}";
 
+            if (move.Length != 5)
+            {
+                return;
+            }
+
+            if ((figure == "P" && e4[1] == '8') || (figure == "p" && e4[1] == '1'))
+            {
+                if (_chess.Move(move) != _chess)
+                {
+                    FigureType type = (FigureType)_chess.GetFigure((int)from.x, (int)from.z);
+
+                    ShowTransformationsFigures(type);
+
+                    foreach (Figures figures in _figures.Values)
+                    {
+                        figures.gameObject.layer = Layers.Default;
+                    }
+                
+                    UnmarkCells();
+                    
+                    _onTransformationMove = move;
+                
+                    return;
+                }
+            }
+
             _chess = _chess.Move(move);
         
             ShowFigures();
@@ -157,6 +185,41 @@ namespace Behaviours
 
         private void PickFigure(Vector3 from)
         {
+            if (_onTransformationMove != "")
+            {
+                int x = (int)from.x;
+
+                if (_onTransformationMove[0] == 'P')
+                {
+                    if (x == 2) _onTransformationMove += "Q";
+                    else if (x == 3) _onTransformationMove += "R";
+                    else if (x == 4) _onTransformationMove += "B";
+                    else if (x == 5) _onTransformationMove += "N";
+                }
+                else if (_onTransformationMove[0] == 'p')
+                {
+                    if (x == 2) _onTransformationMove += "q";
+                    else if (x == 3) _onTransformationMove += "r";
+                    else if (x == 4) _onTransformationMove += "b";
+                    else if (x == 5) _onTransformationMove += "n";
+                }
+
+                _chess = _chess.Move(_onTransformationMove);
+
+                _onTransformationMove = "";
+                
+                ShowFigures();
+                MarkCellsFrom();
+                ShowTransformationsFigures();
+
+                foreach (Figures figures in _figures.Values)
+                {
+                    figures.ShowFigure(figures.CurrentType);
+                }
+                
+                return;
+            }
+            
             MarkCellsTo(from.VectorToCell());
         }
 
