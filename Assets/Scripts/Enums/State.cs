@@ -5,5 +5,7 @@
     {
         None = byte.MinValue,
         Drag = 1,
+        Drop = 2,
+        Promotion = 3,
     }
 }

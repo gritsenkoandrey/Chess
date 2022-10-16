@@ -17,69 +17,103 @@ public sealed class DragAndDrop
     
     public delegate void DropFigure (Vector3 from, Vector3 to);
     public delegate void PickFigure (Vector3 from);
-
+    public delegate void PromotionFigure(Vector3 from);
+    
     private readonly DropFigure _dropFigure;
     private readonly PickFigure _pickFigure;
-
-    public DragAndDrop(DropFigure dropFigure, PickFigure pickFigure)
+    private readonly PromotionFigure _promotionFigure;
+    
+    public DragAndDrop(DropFigure dropFigure, PickFigure pickFigure, PromotionFigure promotionFigure)
     {
         _state = State.None;
         
         _item = null;
-
+    
         _dropFigure = dropFigure;
         _pickFigure = pickFigure;
+        _promotionFigure = promotionFigure;
         
         _actions = new Dictionary<State, Action>
         {
             { State.None, ActionNone },
             { State.Drag, ActionDrag },
+            { State.Promotion, ActionPromotion },
+            { State.Drop, ActionDrop },
         };
-
+    
         _camera = Camera.main;
     }
 
     public void Action() => _actions[_state].Invoke();
-
-    private void ActionDrag()
-    {
-        Drag();
-
-        if (IsMouseButtonUp())
-        {
-            Drop();
-        }
-    }
+    public void ChangeState(State state) => _state = state;
 
     private void ActionNone()
     {
         if (IsMouseButtonDown())
         {
-            PickUp();
+            Transform item = GetFigure();
+
+            if (item)
+            {
+                _state = State.Drag;
+
+                _item = item;
+
+                _fromPosition = item.position;
+
+                _pickFigure(_fromPosition);
+            
+                item.localScale = Vector3.one * 1.5f;
+            }
+        }
+    }
+
+    private void ActionDrag()
+    {
+        _item.MoveFigure(GetBoardPosition());
+
+        if (IsMouseButtonUp())
+        {
+            _state = State.Drop;
+        }
+    }
+
+    private void ActionDrop()
+    {
+        _state = State.None;
+        
+        _toPosition = _item.position;
+
+        _dropFigure(_fromPosition, _toPosition);
+
+        _item.localScale = Vector3.one;
+
+        _item = null;
+    }
+
+    private void ActionPromotion()
+    {
+        if (IsMouseButtonDown())
+        {
+            Transform item = GetPromotionFigure();
+
+            if (item)
+            {
+                _item = item;
+
+                _fromPosition = item.position;
+
+                _promotionFigure(_fromPosition);
+
+                _state = State.None;
+            }
         }
     }
 
     private bool IsMouseButtonDown() => Input.GetMouseButtonDown(0);
     private bool IsMouseButtonUp() => Input.GetMouseButtonUp(0);
+    
     private Ray GetRay() => _camera.ScreenPointToRay(Input.mousePosition);
-
-    private void PickUp()
-    {
-        Transform item = GetFigure();
-
-        if (item)
-        {
-            _state = State.Drag;
-
-            _item = item;
-
-            _fromPosition = item.position;
-
-            _pickFigure(_fromPosition);
-
-            item.localScale = Vector3.one * 1.5f;
-        }
-    }
 
     private Transform GetFigure()
     {
@@ -90,7 +124,15 @@ public sealed class DragAndDrop
 
         return null;
     }
+    private Transform GetPromotionFigure()
+    {
+        if (Physics.Raycast(GetRay(), out RaycastHit hit, 100f, 1 << Layers.Transformations))
+        {
+            return hit.collider.transform;
+        }
 
+        return null;
+    }
     private Vector3 GetBoardPosition()
     {
         if (Physics.Raycast(GetRay(), out RaycastHit hit, 100f, 1 << Layers.Board))
@@ -99,19 +141,5 @@ public sealed class DragAndDrop
         }
 
         return _position;
-    }
-
-    private void Drag() => _item.MoveFigure(GetBoardPosition());
-    private void Drop()
-    {
-        _toPosition = _item.position;
-
-        _dropFigure(_fromPosition, _toPosition);
-        
-        _item.localScale = Vector3.one;
-        
-        _state = State.None;
-
-        _item = null;
     }
 }

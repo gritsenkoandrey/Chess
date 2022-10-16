@@ -19,7 +19,7 @@ namespace Behaviours
     
         private readonly Dictionary<string, ICell> _cells = new (64);
         private readonly Dictionary<string, IFigure> _figures = new (64);
-        private readonly Dictionary<FigureType, IFigure> _transformations = new(8);
+        private readonly Dictionary<FigureType, IFigure> _promotions = new(8);
 
         private DragAndDrop _dragAndDrop;
 
@@ -34,7 +34,7 @@ namespace Behaviours
 
         private void Awake()
         {
-            _dragAndDrop = new DragAndDrop(DropFigure, PickFigure);
+            _dragAndDrop = new DragAndDrop(DropFigure, PickFigure, PromotionFigure);
 
             _chess = new Chess();
         }
@@ -42,9 +42,9 @@ namespace Behaviours
         private void Start()
         {
             InitGameBoard();
-            ShowFigures();
+            UpdateFigures();
             MarkCellsFrom();
-            InstantiateTransformations();
+            InstantiatePromotions();
         }
 
         private void Update()
@@ -64,41 +64,41 @@ namespace Behaviours
             }
         }
 
-        private void InstantiateTransformations()
+        private void InstantiatePromotions()
         {
-            _transformations[FigureType.WhiteQueen] = InstantiateFigures(FigureType.WhiteQueen, 2, 9);
-            _transformations[FigureType.WhiteRock] = InstantiateFigures(FigureType.WhiteRock, 3, 9);
-            _transformations[FigureType.WhiteBishop] = InstantiateFigures(FigureType.WhiteBishop, 4, 9);
-            _transformations[FigureType.WhiteKnight] = InstantiateFigures(FigureType.WhiteKnight, 5, 9);
+            _promotions[FigureType.WhiteQueen] = InstantiateFigures(FigureType.WhiteQueen, 2, 9);
+            _promotions[FigureType.WhiteRock] = InstantiateFigures(FigureType.WhiteRock, 3, 9);
+            _promotions[FigureType.WhiteBishop] = InstantiateFigures(FigureType.WhiteBishop, 4, 9);
+            _promotions[FigureType.WhiteKnight] = InstantiateFigures(FigureType.WhiteKnight, 5, 9);
 
-            _transformations[FigureType.BlackQueen] = InstantiateFigures(FigureType.BlackQueen, 2, -2);
-            _transformations[FigureType.BlackRock] = InstantiateFigures(FigureType.BlackRock, 3, -2);
-            _transformations[FigureType.BlackBishop] = InstantiateFigures(FigureType.BlackBishop, 4, -2);
-            _transformations[FigureType.BlackKnight] = InstantiateFigures(FigureType.BlackKnight, 5, -2);
+            _promotions[FigureType.BlackQueen] = InstantiateFigures(FigureType.BlackQueen, 2, -2);
+            _promotions[FigureType.BlackRock] = InstantiateFigures(FigureType.BlackRock, 3, -2);
+            _promotions[FigureType.BlackBishop] = InstantiateFigures(FigureType.BlackBishop, 4, -2);
+            _promotions[FigureType.BlackKnight] = InstantiateFigures(FigureType.BlackKnight, 5, -2);
             
-            ShowTransformationsFigures();
+            ShowPromotionsFigures();
         }
-
-        private void ShowTransformationsFigures(FigureType type = FigureType.None)
+        private void ShowPromotionsFigures(FigureType type = FigureType.None)
         {
-            foreach (IFigure figures in _transformations.Values)
+            foreach (IFigure figures in _promotions.Values)
             {
                 figures.SetActive(false);
+                figures.SetLayer(Layers.Transformations);
             }
 
             if (type == FigureType.WhitePawn)
             {
-                _transformations[FigureType.WhiteQueen].SetActive(true);
-                _transformations[FigureType.WhiteRock].SetActive(true);
-                _transformations[FigureType.WhiteBishop].SetActive(true);
-                _transformations[FigureType.WhiteKnight].SetActive(true);
+                _promotions[FigureType.WhiteQueen].SetActive(true);
+                _promotions[FigureType.WhiteRock].SetActive(true);
+                _promotions[FigureType.WhiteBishop].SetActive(true);
+                _promotions[FigureType.WhiteKnight].SetActive(true);
             }
             else if (type == FigureType.BlackPawn)
             {
-                _transformations[FigureType.BlackQueen].SetActive(true);
-                _transformations[FigureType.BlackRock].SetActive(true);
-                _transformations[FigureType.BlackBishop].SetActive(true);
-                _transformations[FigureType.BlackKnight].SetActive(true);
+                _promotions[FigureType.BlackQueen].SetActive(true);
+                _promotions[FigureType.BlackRock].SetActive(true);
+                _promotions[FigureType.BlackBishop].SetActive(true);
+                _promotions[FigureType.BlackKnight].SetActive(true);
             }
         }
 
@@ -110,7 +110,6 @@ namespace Behaviours
 
             return cell;
         }
-
         private IFigure InstantiateFigures(FigureType type, int x, int y)
         {
             IFigure figures = Instantiate(_figure, new Vector3(x, 0f, y), Quaternion.identity, _figuresRoot);
@@ -120,7 +119,7 @@ namespace Behaviours
             return figures;
         }
 
-        private void ShowFigures()
+        private void UpdateFigures()
         {
             for (int y = 0; y < 8; y++)
             for (int x = 0; x < 8; x++)
@@ -147,18 +146,13 @@ namespace Behaviours
             string figure = _chess.GetFigure((int)from.x, (int)from.z).ToString();
             string move = $"{figure}{e2}{e4}";
 
-            if (move.Length != 5)
-            {
-                return;
-            }
-
             if ((figure == "P" && e4[1] == '8') || (figure == "p" && e4[1] == '1'))
             {
                 if (_chess.Move(move) != _chess)
                 {
                     FigureType type = (FigureType)_chess.GetFigure((int)from.x, (int)from.z);
 
-                    ShowTransformationsFigures(type);
+                    ShowPromotionsFigures(type);
 
                     foreach (IFigure figures in _figures.Values)
                     {
@@ -168,6 +162,8 @@ namespace Behaviours
                     UnmarkCells();
                     
                     _onTransformationMove = move;
+                    
+                    _dragAndDrop.ChangeState(State.Promotion);
                 
                     return;
                 }
@@ -175,48 +171,44 @@ namespace Behaviours
 
             _chess = _chess.Move(move);
         
-            ShowFigures();
+            UpdateFigures();
             MarkCellsFrom();
         }
-
         private void PickFigure(Vector3 from)
         {
-            if (_onTransformationMove != "")
-            {
-                int x = (int)from.x;
-
-                if (_onTransformationMove[0] == 'P')
-                {
-                    if (x == 2) _onTransformationMove += "Q";
-                    else if (x == 3) _onTransformationMove += "R";
-                    else if (x == 4) _onTransformationMove += "B";
-                    else if (x == 5) _onTransformationMove += "N";
-                }
-                else if (_onTransformationMove[0] == 'p')
-                {
-                    if (x == 2) _onTransformationMove += "q";
-                    else if (x == 3) _onTransformationMove += "r";
-                    else if (x == 4) _onTransformationMove += "b";
-                    else if (x == 5) _onTransformationMove += "n";
-                }
-
-                _chess = _chess.Move(_onTransformationMove);
-
-                _onTransformationMove = "";
-                
-                ShowFigures();
-                MarkCellsFrom();
-                ShowTransformationsFigures();
-
-                foreach (IFigure figures in _figures.Values)
-                {
-                    figures.UpdateFigure(figures.CurrentType);
-                }
-                
-                return;
-            }
-            
             MarkCellsTo(from.VectorToCell());
+        }
+        private void PromotionFigure(Vector3 from)
+        {
+            int x = (int)from.x;
+
+            if (_onTransformationMove[0] == 'P')
+            {
+                if (x == 2) _onTransformationMove += "Q";
+                else if (x == 3) _onTransformationMove += "R";
+                else if (x == 4) _onTransformationMove += "B";
+                else if (x == 5) _onTransformationMove += "N";
+            }
+            else if (_onTransformationMove[0] == 'p')
+            {
+                if (x == 2) _onTransformationMove += "q";
+                else if (x == 3) _onTransformationMove += "r";
+                else if (x == 4) _onTransformationMove += "b";
+                else if (x == 5) _onTransformationMove += "n";
+            }
+
+            _chess = _chess.Move(_onTransformationMove);
+
+            _onTransformationMove = "";
+                
+            UpdateFigures();
+            MarkCellsFrom();
+            ShowPromotionsFigures();
+
+            foreach (IFigure figures in _figures.Values)
+            {
+                figures.UpdateFigure(figures.CurrentType);
+            }
         }
 
         private void MarkCellsFrom()
