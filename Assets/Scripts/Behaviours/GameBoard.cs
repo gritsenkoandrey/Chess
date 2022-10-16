@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using ChessRules;
 using Enums;
 using Extensions;
+using Interfaces;
 using UnityEngine;
 
 namespace Behaviours
@@ -15,11 +16,10 @@ namespace Behaviours
 
         [SerializeField] private Transform _cellsRoot;
         [SerializeField] private Transform _figuresRoot;
-        [SerializeField] private Transform _transformationsRoot;
     
-        private readonly Dictionary<string, Cell> _cells = new (64);
-        private readonly Dictionary<string, Figures> _figures = new (64);
-        private readonly Dictionary<FigureType, Figures> _transformations = new(8);
+        private readonly Dictionary<string, ICell> _cells = new (64);
+        private readonly Dictionary<string, IFigure> _figures = new (64);
+        private readonly Dictionary<FigureType, IFigure> _transformations = new(8);
 
         private DragAndDrop _dragAndDrop;
 
@@ -75,17 +75,13 @@ namespace Behaviours
             _transformations[FigureType.BlackRock] = InstantiateFigures(FigureType.BlackRock, 3, -2);
             _transformations[FigureType.BlackBishop] = InstantiateFigures(FigureType.BlackBishop, 4, -2);
             _transformations[FigureType.BlackKnight] = InstantiateFigures(FigureType.BlackKnight, 5, -2);
-
-            foreach (Figures figures in _transformations.Values)
-            {
-                figures.transform.SetParent(_transformationsRoot);
-                figures.SetActive(false);
-            }
+            
+            ShowTransformationsFigures();
         }
 
         private void ShowTransformationsFigures(FigureType type = FigureType.None)
         {
-            foreach (Figures figures in _transformations.Values)
+            foreach (IFigure figures in _transformations.Values)
             {
                 figures.SetActive(false);
             }
@@ -106,19 +102,20 @@ namespace Behaviours
             }
         }
 
-        private Cell InstantiateCell(int x, int y)
+        private ICell InstantiateCell(int x, int y)
         {
-            Cell cell = Instantiate(_cell, new Vector3(x, 0f, y), Quaternion.identity, _cellsRoot);
-            cell.Renderer.material.color = (x + y) % 2 == 0 ? _black : _white;
+            ICell cell = Instantiate(_cell, new Vector3(x, 0f, y), Quaternion.identity, _cellsRoot);
+            
+            cell.RenderCell.material.color = (x + y) % 2 == 0 ? _black : _white;
 
             return cell;
         }
 
-        private Figures InstantiateFigures(FigureType type, int x, int y)
+        private IFigure InstantiateFigures(FigureType type, int x, int y)
         {
-            Figures figures = Instantiate(_figure, new Vector3(x, 0f, y), Quaternion.identity, _figuresRoot);
-            figures.ShowFigure(type);
-            figures.name = $"{type}";
+            IFigure figures = Instantiate(_figure, new Vector3(x, 0f, y), Quaternion.identity, _figuresRoot);
+            
+            figures.UpdateFigure(type);
 
             return figures;
         }
@@ -132,15 +129,14 @@ namespace Behaviours
 
                 FigureType type = (FigureType)_chess.GetFigure(x, y);
 
-                _figures[key].transform.position = _cells[key].transform.position;
+                _figures[key].SetPosition(_cells[key].Position);
 
                 if (_figures[key].CurrentType == type)
                 {
                     continue;
                 }
 
-                _figures[key].ShowFigure(type);
-                _figures[key].name = $"{type}";
+                _figures[key].UpdateFigure(type);
             }
         }
     
@@ -164,9 +160,9 @@ namespace Behaviours
 
                     ShowTransformationsFigures(type);
 
-                    foreach (Figures figures in _figures.Values)
+                    foreach (IFigure figures in _figures.Values)
                     {
-                        figures.gameObject.layer = Layers.Default;
+                        figures.SetLayer(Layers.Default);
                     }
                 
                     UnmarkCells();
@@ -212,9 +208,9 @@ namespace Behaviours
                 MarkCellsFrom();
                 ShowTransformationsFigures();
 
-                foreach (Figures figures in _figures.Values)
+                foreach (IFigure figures in _figures.Values)
                 {
-                    figures.ShowFigure(figures.CurrentType);
+                    figures.UpdateFigure(figures.CurrentType);
                 }
                 
                 return;
@@ -232,7 +228,6 @@ namespace Behaviours
                 ShowCell(move[1] - 'a', move[2] - '1', CellMarkType.From);
             }
         }
-
         private void MarkCellsTo(string from)
         {
             UnmarkCells();
@@ -245,7 +240,6 @@ namespace Behaviours
                 }
             }
         }
-
         private void UnmarkCells()
         {
             for (int y = 0; y < 8; y++)
@@ -254,7 +248,6 @@ namespace Behaviours
                 ShowCell(x, y);
             }
         }
-
         private void ShowCell(int x, int y, CellMarkType markType = CellMarkType.Original)
         {
             string key = $"{x}{y}";
@@ -262,13 +255,13 @@ namespace Behaviours
             switch (markType)
             {
                 case CellMarkType.Original:
-                    _cells[key].RendererTwo.material.color = (x + y) % 2 == 0 ? _black : _white;
+                    _cells[key].RenderSign.material.color = (x + y) % 2 == 0 ? _black : _white;
                     break;
                 case CellMarkType.From:
-                    _cells[key].RendererTwo.material.color = _green;
+                    _cells[key].RenderSign.material.color = _green;
                     break;
                 case CellMarkType.To:
-                    _cells[key].RendererTwo.material.color = _red;
+                    _cells[key].RenderSign.material.color = _red;
                     break;
             }
         }

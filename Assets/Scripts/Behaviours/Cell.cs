@@ -1,13 +1,15 @@
-﻿using UnityEngine;
+﻿using Interfaces;
+using UnityEngine;
 
 namespace Behaviours
 {
-    public sealed class Cell : MonoBehaviour
+    public sealed class Cell : MonoBehaviour, ICell
     {
-        [SerializeField] private Renderer _renderer;
-        [SerializeField] private Renderer _rendererTwo;
+        [SerializeField] private Renderer _renderCell;
+        [SerializeField] private Renderer _renderSign;
 
-        public Renderer Renderer => _renderer;
-        public Renderer RendererTwo => _rendererTwo;
+        public Renderer RenderCell => _renderCell;
+        public Renderer RenderSign => _renderSign;
+        public Vector3 Position => transform.position;
     }
 }

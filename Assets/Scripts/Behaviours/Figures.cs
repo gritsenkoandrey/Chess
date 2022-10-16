@@ -1,19 +1,21 @@
 ﻿using Enums;
+using Interfaces;
 using UnityEngine;
 
 namespace Behaviours
 {
-    public sealed class Figures : MonoBehaviour
+    public sealed class Figures : MonoBehaviour, IFigure
     {
         [SerializeField] private Figure[] _figuresPrefabs;
-        [SerializeField] private Collider _collider;
         public FigureType CurrentType { get; private set; } = FigureType.None;
 
-        public void ShowFigure(FigureType type)
+        public void UpdateFigure(FigureType type)
         {
             CurrentType = type;
 
-            _collider.gameObject.layer = CurrentType == FigureType.None ? Layers.Default : Layers.Figure;
+            gameObject.name = $"{type}";
+            
+            SetLayer(CurrentType == FigureType.None ? Layers.Default : Layers.Figure);
         
             for (int i = 0; i < _figuresPrefabs.Length; i++)
             {
@@ -22,5 +24,7 @@ namespace Behaviours
         }
 
         public void SetActive(bool value) => gameObject.SetActive(value);
+        public void SetPosition(Vector3 position) => transform.position = position;
+        public void SetLayer(int layer) => gameObject.layer = layer;
     }
 }
