@@ -2,17 +2,21 @@
 using System.Collections.Generic;
 using Enums;
 using Extensions;
+using Interfaces;
 using UnityEngine;
 
-public sealed class DragAndDrop
+public sealed class DragAndDrop : IDragAndDrop
 {
     private State _state;
+    
     private Transform _item;
+    
     private Vector3 _position;
     private Vector3 _fromPosition;
     private Vector3 _toPosition;
     
     private readonly Camera _camera;
+    
     private readonly Dictionary<State, Action> _actions;
     
     public delegate void DropFigure (Vector3 from, Vector3 to);
@@ -126,7 +130,7 @@ public sealed class DragAndDrop
     }
     private Transform GetPromotionFigure()
     {
-        if (Physics.Raycast(GetRay(), out RaycastHit hit, 100f, 1 << Layers.Transformations))
+        if (Physics.Raycast(GetRay(), out RaycastHit hit, 100f, 1 << Layers.Promotions))
         {
             return hit.collider.transform;
         }

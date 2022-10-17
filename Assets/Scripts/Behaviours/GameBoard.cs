@@ -21,7 +21,7 @@ namespace Behaviours
         private readonly Dictionary<string, IFigure> _figures = new (64);
         private readonly Dictionary<FigureType, IFigure> _promotions = new(8);
 
-        private DragAndDrop _dragAndDrop;
+        private IDragAndDrop _dragAndDrop;
 
         private Chess _chess;
     
@@ -83,7 +83,7 @@ namespace Behaviours
             foreach (IFigure figures in _promotions.Values)
             {
                 figures.SetActive(false);
-                figures.SetLayer(Layers.Transformations);
+                figures.SetLayer(Layers.Promotions);
             }
 
             if (type == FigureType.WhitePawn)
