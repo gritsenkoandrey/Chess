@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using ChessRules;
 using Enums;
@@ -32,19 +33,33 @@ namespace Behaviours
 
         private string _onTransformationMove = "";
 
+        public Action<Chess> UpdateChess;
+
         private void Awake()
         {
             _dragAndDrop = new DragAndDrop(DropFigure, PickFigure, PromotionFigure);
-
-            _chess = new Chess();
         }
 
-        private void Start()
+        public void StartGame()
         {
+            _chess = new Chess();
+            
+            UpdateChess.Invoke(_chess);
+
             InitGameBoard();
             UpdateFigures();
             MarkCellsFrom();
             InstantiatePromotions();
+        }
+
+        public void RestartGame()
+        {
+            _chess = new Chess();
+            
+            UpdateChess.Invoke(_chess);
+            
+            UpdateFigures();
+            MarkCellsFrom();
         }
 
         private void Update()
@@ -145,7 +160,7 @@ namespace Behaviours
             string e4 = to.VectorToCell();
             string figure = _chess.GetFigure((int)from.x, (int)from.z).ToString();
             string move = $"{figure}{e2}{e4}";
-
+            
             if ((figure == "P" && e4[1] == '8') || (figure == "p" && e4[1] == '1'))
             {
                 if (_chess.Move(move) != _chess)
@@ -170,7 +185,9 @@ namespace Behaviours
             }
 
             _chess = _chess.Move(move);
-        
+            
+            UpdateChess.Invoke(_chess);
+
             UpdateFigures();
             MarkCellsFrom();
         }
@@ -198,6 +215,8 @@ namespace Behaviours
             }
 
             _chess = _chess.Move(_onTransformationMove);
+            
+            UpdateChess.Invoke(_chess);
 
             _onTransformationMove = "";
                 
