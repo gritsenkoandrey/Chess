@@ -5,6 +5,7 @@ using Enums;
 using Extensions;
 using Interfaces;
 using UnityEngine;
+using Utils;
 
 namespace Behaviours
 {
@@ -12,9 +13,6 @@ namespace Behaviours
 
     public sealed class GameBoard : MonoBehaviour
     {
-        [SerializeField] private Figures _figure;
-        [SerializeField] private Cell _cell;
-
         [SerializeField] private Transform _cellsRoot;
         [SerializeField] private Transform _figuresRoot;
     
@@ -35,9 +33,13 @@ namespace Behaviours
 
         public Action<Chess> UpdateChess;
 
+        private IData _data;
+
         private void Awake()
         {
             _dragAndDrop = new DragAndDrop(DropFigure, PickFigure, PromotionFigure);
+
+            _data = CustomResources.LoadData<IData>();
         }
 
         public void StartGame()
@@ -119,7 +121,7 @@ namespace Behaviours
 
         private ICell InstantiateCell(int x, int y)
         {
-            ICell cell = Instantiate(_cell, new Vector3(x, 0f, y), Quaternion.identity, _cellsRoot);
+            ICell cell = Instantiate(_data.PrefabsData.Cell, new Vector3(x, 0f, y), Quaternion.identity, _cellsRoot);
             
             cell.RenderCell.material.color = (x + y) % 2 == 0 ? _black : _white;
 
@@ -127,7 +129,7 @@ namespace Behaviours
         }
         private IFigure InstantiateFigures(FigureType type, int x, int y)
         {
-            IFigure figures = Instantiate(_figure, new Vector3(x, 0f, y), Quaternion.identity, _figuresRoot);
+            IFigure figures = Instantiate(_data.PrefabsData.Figures, new Vector3(x, 0f, y), Quaternion.identity, _figuresRoot);
             
             figures.UpdateFigure(type);
 
