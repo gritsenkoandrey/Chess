@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Behaviours
 {
-    public sealed class Figure : MonoBehaviour
+    public sealed class Figure : BaseObject
     {
         [SerializeField] private FigureType _figureType;
         [SerializeField] private Renderer _renderer;

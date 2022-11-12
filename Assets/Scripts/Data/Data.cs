@@ -1,4 +1,5 @@
-﻿using Interfaces;
+﻿using Factory;
+using Interfaces;
 using UnityEngine;
 
 namespace Data
@@ -6,8 +7,8 @@ namespace Data
     [CreateAssetMenu(fileName = "Data", menuName = "Data/Data", order = 0)]
     public class Data : ScriptableObject, IData
     {
-        [SerializeField] private PrefabsData _prefabsData;
+        [SerializeField] private SpawnItem _spawnItem;
 
-        public PrefabsData PrefabsData => _prefabsData;
+        public SpawnItem SpawnItem => _spawnItem;
     }
 }

@@ -5,7 +5,7 @@ using Utils;
 
 namespace Behaviours
 {
-    public sealed class Figures : MonoBehaviour, IFigure
+    public sealed class Figures : BaseObject, IFigure
     {
         [SerializeField] private Figure[] _figuresPrefabs;
         public FigureType CurrentType { get; private set; } = FigureType.None;

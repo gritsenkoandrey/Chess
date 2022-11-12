@@ -1,9 +1,9 @@
-﻿using Data;
+﻿using Factory;
 
 namespace Interfaces
 {
     public interface IData
     {
-        public PrefabsData PrefabsData { get; }
+        public SpawnItem SpawnItem { get; }
     }
 }

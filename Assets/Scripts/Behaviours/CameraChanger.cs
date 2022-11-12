@@ -1,9 +1,10 @@
 ﻿using Cinemachine;
+using Interfaces;
 using UnityEngine;
 
 namespace Behaviours
 {
-    public sealed class CameraChanger : MonoBehaviour
+    public sealed class CameraChanger : BaseObject, ICamera
     {
         [SerializeField] private CinemachineVirtualCamera _cameraBefore;
         [SerializeField] private CinemachineVirtualCamera _cameraAfter;

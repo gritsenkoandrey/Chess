@@ -1,20 +1,35 @@
-﻿using ChessRules;
+﻿using System.Collections;
+using ChessRules;
+using GameBoards;
+using Interfaces;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Behaviours
 {
-    public sealed class UIMediator : MonoBehaviour
+    public sealed class UIMediator : BaseObject
     {
-        [SerializeField] private CameraChanger _cameraChanger;
-        [SerializeField] private GameBoard _gameBoard;
-        
         [SerializeField] private Button _startButton;
         [SerializeField] private Button _restartButton;
         
         [SerializeField] private TextMeshProUGUI _textUp;
         [SerializeField] private TextMeshProUGUI _textDown;
+
+        private IGameBoard _gameBoard;
+        private ICamera _camera;
+        
+        private int _turn;
+        
+        private bool _isBlackTurn;
+
+        private void Awake()
+        {
+            Application.targetFrameRate = 60;
+
+            _gameBoard = FindObjectOfType<GameBoard>();
+            _camera = FindObjectOfType<CameraChanger>();
+        }
 
         private void OnEnable()
         {
@@ -34,18 +49,12 @@ namespace Behaviours
 
         private void StartGame()
         {
-            _cameraChanger.StartGame();
-            _startButton.gameObject.SetActive(false);
-
-            _gameBoard.StartGame();
+            StartCoroutine(StartButtonScaleZero());
         }
 
         private void RestartGame()
         {
-            _cameraChanger.StartGame();
-            _restartButton.gameObject.SetActive(false);
-
-            _gameBoard.RestartGame();
+            StartCoroutine(RestartButtonScaleZero());
         }
 
         private void UpdateChess(Chess chess)
@@ -53,6 +62,7 @@ namespace Behaviours
             if (chess.IsCheck && !chess.IsCheckmate)
             {
                 _textDown.text = "Check";
+                _turn++;
             }
             else if (chess.IsCheck && chess.IsCheckmate)
             {
@@ -62,9 +72,9 @@ namespace Behaviours
 
                 _textUp.text = move[1] == "b" ? "White Win" : "Black Win";
                 
-                _cameraChanger.EndGame();
-                
-                _restartButton.gameObject.SetActive(true);
+                StartCoroutine(RestartButtonScaleOne());
+
+                _turn = 0;
             }
             else if (chess.IsStalemate)
             {
@@ -74,9 +84,107 @@ namespace Behaviours
             {
                 string[] move = chess.Fen.Split();
                 
-                _textUp.text = move[1] == "b" ? "Black Turn" : "White Turn";
-                _textDown.text = "";
+                bool isBlackTurn = move[1] != "b";
+                
+                _textUp.text = isBlackTurn ? "Black Turn" : "White Turn";
+
+                if (_isBlackTurn != isBlackTurn)
+                {
+                    _isBlackTurn = isBlackTurn;
+                    
+                    _turn++;
+                }
+                
+                _textDown.text = $"Move Number {_turn}";
             }
+        }
+
+        private IEnumerator StartButtonScaleZero()
+        {
+            _camera.StartGame();
+            
+            _gameBoard.StartGame();
+
+            _startButton.transform.localScale = Vector3.one;
+            
+            _startButton.interactable = false;
+
+            float scale = 1f;
+            float time = 0.01f;
+            float speed = 2f;
+            
+            while (scale > 0f)
+            {
+                yield return new WaitForSeconds(time);
+
+                scale -= Time.deltaTime * speed;
+                
+                _startButton.transform.localScale = Vector3.one * Ease(scale);
+            }
+            
+            _startButton.interactable = true;
+            
+            _startButton.gameObject.SetActive(false);
+        }
+        private IEnumerator RestartButtonScaleZero()
+        {
+            _camera.StartGame();
+            
+            _gameBoard.RestartGame();
+
+            _startButton.transform.localScale = Vector3.one;
+
+            _startButton.interactable = false;
+
+            float scale = 1f;
+            float time = 0.01f;
+            float speed = 2f;
+
+            while (scale > 0f)
+            {
+                yield return new WaitForSeconds(time);
+
+                scale -= Time.deltaTime * speed;
+                
+                _restartButton.transform.localScale = Vector3.one * Ease(scale);
+            }
+
+            _startButton.interactable = true;
+
+            _restartButton.gameObject.SetActive(false);
+        }
+        private IEnumerator RestartButtonScaleOne()
+        {
+            _camera.EndGame();
+                
+            _restartButton.gameObject.SetActive(true);
+            
+            _restartButton.transform.localScale = Vector3.zero;
+
+            _restartButton.interactable = false;
+            
+            float scale = 0f;
+            float time = 0.01f;
+            float speed = 2f;
+
+            while (scale < 1f)
+            {
+                yield return new WaitForSeconds(time);
+
+                scale += Time.deltaTime * speed;
+                
+                _restartButton.transform.localScale = Vector3.one * Ease(scale);
+            }
+            
+            _restartButton.interactable = true;
+        }
+
+        private static float Ease(float number)
+        {
+            float c1 = 0.75f;
+            float c3 = c1 + 1f;
+
+            return 1 + c3 * Mathf.Pow(number - 1, 3) + c1 * Mathf.Pow(number - 1, 2);
         }
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Behaviours
 {
-    public sealed class Cell : MonoBehaviour, ICell
+    public sealed class Cell : BaseObject, ICell
     {
         [SerializeField] private Renderer _renderCell;
         [SerializeField] private Renderer _renderSign;
