@@ -8,10 +8,14 @@ using UnityEngine.UI;
 
 namespace Behaviours
 {
+    using Color = UnityEngine.Color;
+
     public sealed class UIMediator : BaseObject
     {
         [SerializeField] private Button _startButton;
         [SerializeField] private Button _restartButton;
+
+        [SerializeField] private Image _crown;
         
         [SerializeField] private TextMeshProUGUI _textUp;
         [SerializeField] private TextMeshProUGUI _textDown;
@@ -52,8 +56,10 @@ namespace Behaviours
         private void StartGame()
         {
             _camera.StartGame();
-            
+
             _gameBoard.StartGame();
+
+            StartCoroutine(ImageFadeAndScale(_crown));
 
             StartCoroutine(ButtonScaleZero(_startButton));
         }
@@ -158,6 +164,29 @@ namespace Behaviours
             
             button.interactable = true;
         }
+        private static IEnumerator ImageFadeAndScale(Image image)
+        {
+            Color c = image.color;
+            float scale = 1f;
+            float fade = 1f;
+
+            while (fade > 0f)
+            {
+                yield return null;
+                
+                scale += Time.deltaTime * Speed;
+                fade -= Time.deltaTime * Speed;
+
+                image.transform.localScale = Vector3.one * scale;
+
+                Color color = new Color(c.r, c.g, c.b, fade);
+
+                image.color = color;
+            }
+            
+            image.gameObject.SetActive(false);
+        }
+        
         private static float EaseOutBack(float number)
         {
             float c1 = 0.70158f;

@@ -74,8 +74,8 @@ SpriteAtlas:
       padding: 8
       blockOffset: 1
       allowAlphaSplitting: 0
-      enableRotation: 1
-      enableTightPacking: 1
+      enableRotation: 0
+      enableTightPacking: 0
       enableAlphaDilation: 0
     secondaryTextureSettings: {}
     variantMultiplier: 1
@@ -88,12 +88,14 @@ SpriteAtlas:
   m_PackedSprites:
   - {fileID: 21300000, guid: edf711441da8c428bae528686532e5e4, type: 3}
   - {fileID: 21300000, guid: 9dd670d9956e44d56ac8c3662c18cbe0, type: 3}
+  - {fileID: 21300000, guid: b6df9bbc0eb3b6a4f9128ff8d92d9c8d, type: 3}
   - {fileID: 21300000, guid: 01e584fc9ff6d4a969400e68b97befc4, type: 3}
   - {fileID: 21300000, guid: 17ef8c2e6bda845ca82eb3e56635a961, type: 3}
   - {fileID: 21300000, guid: a4f28b6fb67fb4658addf98ee532a7ac, type: 3}
   m_PackedSpriteNamesToIndex:
   - UI_Button_Orange
   - UI_Background
+  - TXT_Chess
   - UI_Button_Red
   - UI_Button_Green
   - UI_Button_Blue
