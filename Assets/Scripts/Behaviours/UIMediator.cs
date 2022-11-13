@@ -19,9 +19,11 @@ namespace Behaviours
         private IGameBoard _gameBoard;
         private ICamera _camera;
         
-        private int _turn;
+        private int _turn = 1;
         
         private bool _isBlackTurn;
+
+        private const float Speed = 1f;
 
         private void Awake()
         {
@@ -49,12 +51,27 @@ namespace Behaviours
 
         private void StartGame()
         {
-            StartCoroutine(StartButtonScaleZero());
+            _camera.StartGame();
+            
+            _gameBoard.StartGame();
+
+            StartCoroutine(ButtonScaleZero(_startButton));
         }
 
         private void RestartGame()
         {
-            StartCoroutine(RestartButtonScaleZero());
+            _camera.StartGame();
+            
+            _gameBoard.RestartGame();
+
+            StartCoroutine(ButtonScaleZero(_restartButton));
+        }
+
+        private void EndGame()
+        {
+            _camera.EndGame();
+                
+            StartCoroutine(ButtonScaleOne(_restartButton));
         }
 
         private void UpdateChess(Chess chess)
@@ -72,9 +89,9 @@ namespace Behaviours
 
                 _textUp.text = move[1] == "b" ? "White Win" : "Black Win";
                 
-                StartCoroutine(RestartButtonScaleOne());
+                EndGame();
 
-                _turn = 0;
+                _turn = 1;
             }
             else if (chess.IsStalemate)
             {
@@ -84,9 +101,11 @@ namespace Behaviours
             {
                 string[] move = chess.Fen.Split();
                 
-                bool isBlackTurn = move[1] != "b";
+                bool isBlackTurn = move[1] == "b";
                 
                 _textUp.text = isBlackTurn ? "Black Turn" : "White Turn";
+                
+                _textDown.text = $"Move Number {_turn}";
 
                 if (_isBlackTurn != isBlackTurn)
                 {
@@ -94,97 +113,57 @@ namespace Behaviours
                     
                     _turn++;
                 }
-                
-                _textDown.text = $"Move Number {_turn}";
             }
         }
 
-        private IEnumerator StartButtonScaleZero()
+        private static IEnumerator ButtonScaleZero(Button button)
         {
-            _camera.StartGame();
+            button.transform.localScale = Vector3.one;
             
-            _gameBoard.StartGame();
-
-            _startButton.transform.localScale = Vector3.one;
-            
-            _startButton.interactable = false;
+            button.interactable = false;
 
             float scale = 1f;
-            float time = 0.01f;
-            float speed = 2f;
             
             while (scale > 0f)
             {
-                yield return new WaitForSeconds(time);
+                yield return null;
 
-                scale -= Time.deltaTime * speed;
-                
-                _startButton.transform.localScale = Vector3.one * Ease(scale);
+                scale -= Time.deltaTime * Speed;
+
+                button.transform.localScale = Vector3.one * EaseOutBack(scale);
             }
             
-            _startButton.interactable = true;
+            button.interactable = true;
             
-            _startButton.gameObject.SetActive(false);
+            button.gameObject.SetActive(false);
         }
-        private IEnumerator RestartButtonScaleZero()
+        private static IEnumerator ButtonScaleOne(Button button)
         {
-            _camera.StartGame();
-            
-            _gameBoard.RestartGame();
+            button.gameObject.SetActive(true);
 
-            _startButton.transform.localScale = Vector3.one;
+            button.transform.localScale = Vector3.zero;
 
-            _startButton.interactable = false;
-
-            float scale = 1f;
-            float time = 0.01f;
-            float speed = 2f;
-
-            while (scale > 0f)
-            {
-                yield return new WaitForSeconds(time);
-
-                scale -= Time.deltaTime * speed;
-                
-                _restartButton.transform.localScale = Vector3.one * Ease(scale);
-            }
-
-            _startButton.interactable = true;
-
-            _restartButton.gameObject.SetActive(false);
-        }
-        private IEnumerator RestartButtonScaleOne()
-        {
-            _camera.EndGame();
-                
-            _restartButton.gameObject.SetActive(true);
-            
-            _restartButton.transform.localScale = Vector3.zero;
-
-            _restartButton.interactable = false;
+            button.interactable = false;
             
             float scale = 0f;
-            float time = 0.01f;
-            float speed = 2f;
 
             while (scale < 1f)
             {
-                yield return new WaitForSeconds(time);
+                yield return null;
 
-                scale += Time.deltaTime * speed;
-                
-                _restartButton.transform.localScale = Vector3.one * Ease(scale);
+                scale += Time.deltaTime * Speed;
+
+                button.transform.localScale = Vector3.one * EaseOutBack(scale);
             }
             
-            _restartButton.interactable = true;
+            button.interactable = true;
         }
-
-        private static float Ease(float number)
+        private static float EaseOutBack(float number)
         {
-            float c1 = 0.75f;
+            float c1 = 0.70158f;
             float c3 = c1 + 1f;
 
-            return 1 + c3 * Mathf.Pow(number - 1, 3) + c1 * Mathf.Pow(number - 1, 2);
+            return 1f + c3 * Mathf.Pow(number - 1f, 3) + c1 * Mathf.Pow(number - 1f, 2);
         }
     }
 }
