@@ -9,6 +9,7 @@ namespace Behaviours
     {
         [SerializeField] private Figure[] _figuresPrefabs;
         public FigureType CurrentType { get; private set; } = FigureType.None;
+        public Transform Transform => transform;
 
         public void UpdateFigure(FigureType type)
         {

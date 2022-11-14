@@ -82,6 +82,8 @@ namespace Behaviours
 
         private void UpdateChess(Chess chess)
         {
+            string[] move = chess.Fen.Split();
+            
             if (chess.IsCheck && !chess.IsCheckmate)
             {
                 _textDown.text = "Check";
@@ -90,8 +92,6 @@ namespace Behaviours
             {
                 _textDown.text = "Checkmate";
                 
-                string[] move = chess.Fen.Split();
-
                 _textUp.text = move[1] == "b" ? "White Win" : "Black Win";
                 
                 EndGame();
@@ -104,11 +104,14 @@ namespace Behaviours
             }
             else
             {
-                string[] move = chess.Fen.Split();
-                
                 _textUp.text = move[1] == "b" ? "Black Turn" : "White Turn";
                 
                 _textDown.text = $"Move Number {_turn}";
+            }
+
+            if (move[1] == "b" && !chess.IsStalemate && !(chess.IsCheck && chess.IsCheckmate))
+            {
+                _gameBoard.OpponentMove();
             }
         }
 

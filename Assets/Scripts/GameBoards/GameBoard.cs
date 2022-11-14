@@ -50,5 +50,10 @@ namespace GameBoards
             UpdateFigures();
             MarkCellsFrom();
         }
+        
+        public void OpponentMove()
+        {
+            StartCoroutine(OpponentMoveCoroutine());
+        }
     }
 }

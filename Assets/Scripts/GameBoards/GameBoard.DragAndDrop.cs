@@ -58,11 +58,11 @@ namespace GameBoards
             }
 
             _chess = _chess.Move(move);
-            
-            UpdateChess.Invoke(_chess);
 
             UpdateFigures();
             MarkCellsFrom();
+            
+            UpdateChess.Invoke(_chess);
         }
         
         private void PickFigure(Vector3 from)
@@ -93,8 +93,6 @@ namespace GameBoards
             
             _chess = _chess.Move(_onTransformationMove);
 
-            UpdateChess.Invoke(_chess);
-
             _onTransformationMove = "";
                 
             UpdateFigures();
@@ -105,6 +103,8 @@ namespace GameBoards
             {
                 figures.UpdateFigure(figures.CurrentType);
             }
+            
+            UpdateChess.Invoke(_chess);
         }
     }
 }

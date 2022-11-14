@@ -30,7 +30,7 @@ public sealed class DragAndDrop : IDragAndDrop
     
     public DragAndDrop(DropFigure dropFigure, PickFigure pickFigure, PromotionFigure promotionFigure)
     {
-        _state = State.None;
+        _state = State.Player;
         
         _item = null;
     
@@ -40,10 +40,11 @@ public sealed class DragAndDrop : IDragAndDrop
         
         _actions = new Dictionary<State, Action>
         {
-            { State.None, ActionNone },
+            { State.Player, ActionNone },
             { State.Drag, ActionDrag },
             { State.Promotion, ActionPromotion },
             { State.Drop, ActionDrop },
+            { State.Opponent, ActionOpponent },
         };
     
         _camera = Camera.main;
@@ -67,8 +68,6 @@ public sealed class DragAndDrop : IDragAndDrop
                 _fromPosition = item.position;
 
                 _pickFigure(_fromPosition);
-            
-                item.localScale = Vector3.one * 1.5f;
             }
         }
     }
@@ -85,13 +84,11 @@ public sealed class DragAndDrop : IDragAndDrop
 
     private void ActionDrop()
     {
-        _state = State.None;
+        _state = State.Player;
         
         _toPosition = _item.position;
 
         _dropFigure(_fromPosition, _toPosition);
-
-        _item.localScale = Vector3.one;
 
         _item = null;
     }
@@ -110,9 +107,14 @@ public sealed class DragAndDrop : IDragAndDrop
 
                 _promotionFigure(_fromPosition);
 
-                _state = State.None;
+                _state = State.Player;
             }
         }
+    }
+
+    private void ActionOpponent()
+    {
+        return;
     }
 
     private bool IsMouseButtonDown() => Input.GetMouseButtonDown(0);
