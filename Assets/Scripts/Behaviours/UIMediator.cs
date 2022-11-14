@@ -24,8 +24,6 @@ namespace Behaviours
         private ICamera _camera;
         
         private int _turn = 1;
-        
-        private bool _isBlackTurn;
 
         private const float Speed = 1f;
 
@@ -43,6 +41,7 @@ namespace Behaviours
             _restartButton.onClick.AddListener(RestartGame);
             
             _gameBoard.UpdateChess += UpdateChess;
+            _gameBoard.ChangeTurn += ChangeTurn;
         }
 
         private void OnDisable()
@@ -51,6 +50,7 @@ namespace Behaviours
             _restartButton.onClick.RemoveListener(RestartGame);
             
             _gameBoard.UpdateChess -= UpdateChess;
+            _gameBoard.ChangeTurn -= ChangeTurn;
         }
 
         private void StartGame()
@@ -85,7 +85,6 @@ namespace Behaviours
             if (chess.IsCheck && !chess.IsCheckmate)
             {
                 _textDown.text = "Check";
-                _turn++;
             }
             else if (chess.IsCheck && chess.IsCheckmate)
             {
@@ -107,20 +106,13 @@ namespace Behaviours
             {
                 string[] move = chess.Fen.Split();
                 
-                bool isBlackTurn = move[1] == "b";
-                
-                _textUp.text = isBlackTurn ? "Black Turn" : "White Turn";
+                _textUp.text = move[1] == "b" ? "Black Turn" : "White Turn";
                 
                 _textDown.text = $"Move Number {_turn}";
-
-                if (_isBlackTurn != isBlackTurn)
-                {
-                    _isBlackTurn = isBlackTurn;
-                    
-                    _turn++;
-                }
             }
         }
+
+        private void ChangeTurn() => _turn++;
 
         private static IEnumerator ButtonScaleZero(Button button)
         {

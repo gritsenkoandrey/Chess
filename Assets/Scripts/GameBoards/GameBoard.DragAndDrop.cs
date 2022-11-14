@@ -52,6 +52,11 @@ namespace GameBoards
                 }
             }
 
+            if (_chess.Move(move) != _chess)
+            {
+                ChangeTurn.Invoke();
+            }
+
             _chess = _chess.Move(move);
             
             UpdateChess.Invoke(_chess);
@@ -84,8 +89,10 @@ namespace GameBoards
                 else if (x == 5) _onTransformationMove += "n";
             }
 
-            _chess = _chess.Move(_onTransformationMove);
+            ChangeTurn.Invoke();
             
+            _chess = _chess.Move(_onTransformationMove);
+
             UpdateChess.Invoke(_chess);
 
             _onTransformationMove = "";

@@ -16,6 +16,7 @@ namespace GameBoards
         private Chess _chess;
         
         public Action<Chess> UpdateChess { get; set; }
+        public Action ChangeTurn { get; set; }
 
         private void Awake()
         {
