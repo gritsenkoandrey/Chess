@@ -101,6 +101,12 @@ namespace Behaviours
             else if (chess.IsStalemate)
             {
                 _textDown.text = "Stalemate";
+
+                _textUp.text = "Draw";
+                
+                EndGame();
+
+                _turn = 1;
             }
             else
             {
