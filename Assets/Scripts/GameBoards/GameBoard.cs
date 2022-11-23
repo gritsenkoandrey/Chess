@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Behaviours;
 using ChessRules;
 using Enums;
 using Interfaces;
-using UnityEngine;
 
 namespace GameBoards
 {
-    public partial class GameBoard : MonoBehaviour, IGameBoard
+    public partial class GameBoard : BaseObject, IGameBoard
     {
         private readonly Dictionary<string, ICell> _cells = new (64);
         private readonly Dictionary<string, IFigure> _figures = new (64);

@@ -1,6 +1,6 @@
 ﻿namespace Interfaces
 {
-    public interface ICamera
+    public interface IGameCamera
     {
         public void StartGame();
         public void EndGame();

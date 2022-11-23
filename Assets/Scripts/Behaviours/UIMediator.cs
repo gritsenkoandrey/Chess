@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using ChessRules;
-using GameBoards;
 using Interfaces;
 using TMPro;
 using UnityEngine;
@@ -21,27 +20,25 @@ namespace Behaviours
         [SerializeField] private TextMeshProUGUI _textDown;
 
         private IGameBoard _gameBoard;
-        private ICamera _camera;
+        private IGameCamera _gameCamera;
         
         private int _turn = 1;
 
         private const float Speed = 1f;
 
-        private void Awake()
+        public void Construct(IGameBoard gameBoard, IGameCamera gameCamera)
         {
-            Application.targetFrameRate = 60;
-
-            _gameBoard = FindObjectOfType<GameBoard>();
-            _camera = FindObjectOfType<CameraChanger>();
+            _gameBoard = gameBoard;
+            _gameCamera = gameCamera;
+            
+            _gameBoard.UpdateChess += UpdateChess;
+            _gameBoard.ChangeTurn += ChangeTurn;
         }
 
         private void OnEnable()
         {
             _startButton.onClick.AddListener(StartGame);
             _restartButton.onClick.AddListener(RestartGame);
-            
-            _gameBoard.UpdateChess += UpdateChess;
-            _gameBoard.ChangeTurn += ChangeTurn;
         }
 
         private void OnDisable()
@@ -55,7 +52,7 @@ namespace Behaviours
 
         private void StartGame()
         {
-            _camera.StartGame();
+            _gameCamera.StartGame();
 
             _gameBoard.StartGame();
 
@@ -66,7 +63,7 @@ namespace Behaviours
 
         private void RestartGame()
         {
-            _camera.StartGame();
+            _gameCamera.StartGame();
             
             _gameBoard.RestartGame();
 
@@ -75,7 +72,7 @@ namespace Behaviours
 
         private void EndGame()
         {
-            _camera.EndGame();
+            _gameCamera.EndGame();
                 
             StartCoroutine(ButtonScaleOne(_restartButton));
         }

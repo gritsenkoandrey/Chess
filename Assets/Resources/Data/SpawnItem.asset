@@ -14,3 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _figures: {fileID: 885732822332023993, guid: 474f55b9146a0834cb3afc1cc7de5dc3, type: 3}
   _cell: {fileID: 7100128783968405136, guid: 4b0b74224484efe4dae03e44e5bfd37d, type: 3}
+  _gameBoard: {fileID: 3427271334815248808, guid: 2fb8b06d0e8109d468d822aecc95f3dd,
+    type: 3}
+  _gameCamera: {fileID: 3533261675969652697, guid: 95030d42fb227c844b5f725e07f7319a,
+    type: 3}
+  _uiMediator: {fileID: 142950716249914653, guid: 9b41d0ebdde24a941a9d694a56e292b5,
+    type: 3}

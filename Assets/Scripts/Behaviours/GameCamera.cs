@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Behaviours
 {
-    public sealed class CameraChanger : BaseObject, ICamera
+    public sealed class GameCamera : BaseObject, IGameCamera
     {
         [SerializeField] private CinemachineVirtualCamera _cameraBefore;
         [SerializeField] private CinemachineVirtualCamera _cameraAfter;
