@@ -2,7 +2,5 @@
 
 namespace Behaviours
 {
-    public abstract class BaseObject : MonoBehaviour
-    {
-    }
+    public abstract class BaseObject : MonoBehaviour { }
 }

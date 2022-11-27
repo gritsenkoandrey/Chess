@@ -4,24 +4,10 @@ using Interfaces;
 using UnityEngine;
 using Utils;
 
-namespace GameBoards
+namespace GameBoardBase
 {
     public partial class GameBoard
     {
-        private IDragAndDrop _dragAndDrop;
-
-        private string _onTransformationMove = "";
-
-        private void DragAndDrop()
-        {
-            _dragAndDrop = new DragAndDrop(DropFigure, PickFigure, PromotionFigure);
-        }
-
-        private void Execute()
-        {
-            _dragAndDrop.Action();
-        }
-
         private void DropFigure(Vector3 from, Vector3 to)
         {
             string e2 = from.VectorToCell();

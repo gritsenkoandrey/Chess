@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Data;
+using UnityEngine;
+using Utils;
 
 namespace Infrastructure
 {
@@ -10,7 +12,9 @@ namespace Infrastructure
         
         private void Awake()
         {
-            _game = new Game(this, _curtain);
+            IAssetData assetData = CustomResources.Load<IAssetData>();
+
+            _game = new Game(this, _curtain, assetData);
             
             _game.StateMachine.Enter<BootstrapState>();
             

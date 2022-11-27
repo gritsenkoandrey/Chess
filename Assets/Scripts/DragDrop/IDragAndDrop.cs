@@ -1,6 +1,6 @@
 ﻿using Enums;
 
-namespace Interfaces
+namespace DragDrop
 {
     public interface IDragAndDrop
     {

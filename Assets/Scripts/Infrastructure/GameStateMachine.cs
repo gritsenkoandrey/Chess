@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Data;
 
 namespace Infrastructure
 {
@@ -9,12 +10,12 @@ namespace Infrastructure
         
         private IExitState _activeState;
 
-        public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain curtain)
+        public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain curtain, IAssetData assetData)
         {
             _states = new Dictionary<Type, IExitState>
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader),
-                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, curtain),
+                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, curtain, assetData),
                 [typeof(GameLoopState)] = new GameLoopState(this),
             };
         }

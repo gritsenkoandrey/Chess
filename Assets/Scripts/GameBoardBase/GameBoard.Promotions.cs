@@ -2,7 +2,7 @@
 using Interfaces;
 using Utils;
 
-namespace GameBoards
+namespace GameBoardBase
 {
     public partial class GameBoard
     {

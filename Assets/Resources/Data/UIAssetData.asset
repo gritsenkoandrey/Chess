@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1a6ddcffaec4d7c8a4031fd0361c38f, type: 3}
-  m_Name: Data
+  m_Script: {fileID: 11500000, guid: c1a3424a3f064f2c855c2ef180dc14ca, type: 3}
+  m_Name: UIAssetData
   m_EditorClassIdentifier: 
-  _gameAssetData: {fileID: 11400000, guid: 894b3259c6fbe634291b24457bbb4a43, type: 2}
-  _uiAssetData: {fileID: 11400000, guid: b0f89c91e6d31394fa2d95406e3eb85b, type: 2}
+  _uiMediator: {fileID: 142950716249914653, guid: 9b41d0ebdde24a941a9d694a56e292b5,
+    type: 3}

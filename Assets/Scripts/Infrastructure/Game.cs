@@ -1,12 +1,14 @@
-﻿namespace Infrastructure
+﻿using Data;
+
+namespace Infrastructure
 {
     public sealed class Game
     {
         public readonly GameStateMachine StateMachine;
 
-        public Game(ICoroutineRunner coroutineRunner, LoadingCurtain curtain)
+        public Game(ICoroutineRunner coroutineRunner, LoadingCurtain curtain, IAssetData assetData)
         {
-            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner), curtain);
+            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner), curtain, assetData);
         }
     }
 }

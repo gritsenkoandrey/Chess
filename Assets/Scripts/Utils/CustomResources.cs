@@ -1,4 +1,4 @@
-﻿using Interfaces;
+﻿using Data;
 using UnityEngine;
 
 namespace Utils
@@ -7,9 +7,9 @@ namespace Utils
     {
         private const string DATA = "Data/Data";
 
-        public static IData LoadData<T>() where T : IData
+        public static IAssetData Load<T>() where T : IAssetData
         {
-            return Resources.Load(DATA, typeof(T)) as IData;;
+            return Resources.Load(DATA, typeof(T)) as IAssetData;;
         }
     }
 }

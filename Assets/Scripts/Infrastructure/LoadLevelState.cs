@@ -1,6 +1,8 @@
-﻿using Interfaces;
+﻿using Behaviours;
+using Data;
+using Factory;
+using GameBoardBase;
 using UnityEngine;
-using Utils;
 
 namespace Infrastructure
 {
@@ -10,11 +12,17 @@ namespace Infrastructure
         private readonly SceneLoader _sceneLoader;
         private readonly LoadingCurtain _curtain;
 
-        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain)
+        private readonly IGameFactory _gameFactory;
+        private readonly IUIFactory _uiFactory;
+
+        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain, IAssetData assetData)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
             _curtain = curtain;
+
+            _gameFactory = new GameFactory(assetData);
+            _uiFactory = new UIFactory(assetData);
         }
 
         public void Enter(string sceneName)
@@ -35,12 +43,13 @@ namespace Infrastructure
 
         private void OnLoaded()
         {
-            IData data = CustomResources.LoadData<IData>();
-
-            IGameBoard gameBoard = data.SpawnItem.GetGameBoard();
-            IGameCamera gameCamera = data.SpawnItem.GetGameCamera();
+            GameBoard gameBoard = _gameFactory.CreateGameBoard();
             
-            data.SpawnItem.GetUIMediator().Construct(gameBoard, gameCamera);
+            gameBoard.Construct(_gameFactory);
+            
+            GameCamera gameCamera = _gameFactory.CreateGameCamera();
+            
+            _uiFactory.CreateUIMediator().Construct(gameBoard, gameCamera);
             
             _stateMachine.Enter<GameLoopState>();
         }

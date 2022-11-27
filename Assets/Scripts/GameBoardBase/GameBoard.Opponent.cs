@@ -1,11 +1,11 @@
-﻿using Enums;
-using System.Collections;
+﻿using System.Collections;
+using Enums;
 using Extensions;
 using Interfaces;
 using UnityEngine;
 using Utils;
 
-namespace GameBoards
+namespace GameBoardBase
 {
     public partial class GameBoard
     {

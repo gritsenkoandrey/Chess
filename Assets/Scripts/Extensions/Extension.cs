@@ -4,9 +4,9 @@ namespace Extensions
 {
     public static class Extension
     {
-        public static void MoveFigure(this Transform current, Vector3 next)
+        public static void MoveFigure(this Transform transform, Vector3 next)
         {
-            current.position = new Vector3(Mathf.RoundToInt(next.x), 0.15f, Mathf.RoundToInt(next.z));
+            transform.position = new Vector3(Mathf.RoundToInt(next.x), 0.15f, Mathf.RoundToInt(next.z));
         }
 
         public static string VectorToCell(this Vector3 vector)

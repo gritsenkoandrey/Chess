@@ -2,7 +2,7 @@
 
 namespace Utils
 {
-    public sealed class Layers
+    public static class Layers
     {
         private const string DEAFAULT = "Default";
         private const string FIGURE = "Figure";

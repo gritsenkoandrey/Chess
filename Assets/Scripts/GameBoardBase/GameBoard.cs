@@ -1,32 +1,44 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Behaviours;
 using ChessRules;
+using DragDrop;
 using Enums;
+using Factory;
 using Interfaces;
+using UnityEngine;
 
-namespace GameBoards
+namespace GameBoardBase
 {
     public partial class GameBoard : BaseObject, IGameBoard
     {
+        [SerializeField] private Transform _cellsRoot;
+        [SerializeField] private Transform _figuresRoot;
+
         private readonly Dictionary<string, ICell> _cells = new (64);
         private readonly Dictionary<string, IFigure> _figures = new (64);
         private readonly Dictionary<FigureType, IFigure> _promotions = new(8);
 
-        private Chess _chess;
-        
         public Action<Chess> UpdateChess { get; set; }
         public Action ChangeTurn { get; set; }
 
-        private void Awake()
+        private Chess _chess;
+        private IGameFactory _gameFactory;
+        private IDragAndDrop _dragAndDrop;
+
+        private string _onTransformationMove = "";
+
+        public void Construct(IGameFactory gameFactory)
         {
-            Initialize();
-            DragAndDrop();
+            _gameFactory = gameFactory;
+            
+            _dragAndDrop = new DragAndDrop(DropFigure, PickFigure, PromotionFigure);
         }
 
         private void Update()
         {
-            Execute();
+            _dragAndDrop.Action();
         }
 
         public void StartGame()
@@ -53,7 +65,7 @@ namespace GameBoards
         
         public void OpponentMove()
         {
-            StartCoroutine(OpponentMoveCoroutine());
+            StartCoroutine((IEnumerator)OpponentMoveCoroutine());
         }
     }
 }

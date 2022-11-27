@@ -1,7 +1,7 @@
 ﻿using Enums;
 using UnityEngine;
 
-namespace GameBoards
+namespace GameBoardBase
 {
     public partial class GameBoard
     {

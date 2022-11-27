@@ -1,5 +1,6 @@
 ﻿namespace Enums
 {
+    [System.Serializable]
     public enum CellMarkType : byte
     {
         None     = byte.MaxValue,
