@@ -1,6 +1,6 @@
 ﻿using Behaviours;
+using GameBoardBase;
 using UnityEngine;
-using GameBoard = GameBoardBase.GameBoard;
 
 namespace Factory
 {

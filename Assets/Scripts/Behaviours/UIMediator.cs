@@ -24,21 +24,21 @@ namespace Behaviours
         
         private int _turn = 1;
 
-        private const float Speed = 1f;
+        private const float Speed = 0.75f;
 
         public void Construct(IGameBoard gameBoard, IGameCamera gameCamera)
         {
             _gameBoard = gameBoard;
             _gameCamera = gameCamera;
-            
-            _gameBoard.UpdateChess += UpdateChess;
-            _gameBoard.ChangeTurn += ChangeTurn;
         }
 
-        private void OnEnable()
+        private void Start()
         {
             _startButton.onClick.AddListener(StartGame);
             _restartButton.onClick.AddListener(RestartGame);
+            
+            _gameBoard.UpdateChess += UpdateChess;
+            _gameBoard.ChangeTurn += ChangeTurn;
         }
 
         private void OnDisable()
