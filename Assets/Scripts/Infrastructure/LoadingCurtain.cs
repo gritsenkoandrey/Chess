@@ -1,17 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Infrastructure
+namespace OnlineChess.Scripts.Infrastructure
 {
     public sealed class LoadingCurtain : MonoBehaviour
     {
         [SerializeField] private CanvasGroup _canvasGroup;
-
-        private void Awake()
-        {
-            DontDestroyOnLoad(this);
-        }
-
+        
         public void Show()
         {
             gameObject.SetActive(true);

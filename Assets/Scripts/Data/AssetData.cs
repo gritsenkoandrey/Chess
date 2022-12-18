@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Data
+namespace OnlineChess.Scripts.Data
 {
     [CreateAssetMenu(fileName = "Data", menuName = "Data/Data", order = 0)]
     public sealed class AssetData : ScriptableObject, IAssetData

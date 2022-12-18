@@ -1,17 +1,20 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Behaviours;
 using ChessRules;
-using DragDrop;
-using Enums;
-using Factory;
-using Interfaces;
+using OnlineChess.Scripts.Behaviours;
+using OnlineChess.Scripts.BoardProgressData;
+using OnlineChess.Scripts.DragDrop;
+using OnlineChess.Scripts.Enums;
+using OnlineChess.Scripts.Factory;
+using OnlineChess.Scripts.Infrastructure.Services;
+using OnlineChess.Scripts.Interfaces;
+using OnlineChess.Scripts.Services.PersistentProgress;
+using OnlineChess.Scripts.Services.SaveLoad;
 using UnityEngine;
 
-namespace GameBoardBase
+namespace OnlineChess.Scripts.GameBoardBase
 {
-    public partial class GameBoard : BaseObject, IGameBoard
+    public partial class GameBoard : BaseObject, IGameBoard, IProgressWriter, IProgressReader
     {
         [SerializeField] private Transform _cellsRoot;
         [SerializeField] private Transform _figuresRoot;
@@ -25,13 +28,16 @@ namespace GameBoardBase
 
         private Chess _chess;
         private IGameFactory _gameFactory;
+        private ISaveLoadService _saveLoadService;
         private IDragAndDrop _dragAndDrop;
 
         private string _onTransformationMove = "";
+        private string _fen;
 
-        public void Construct(IGameFactory gameFactory)
+        private void Awake()
         {
-            _gameFactory = gameFactory;
+            _gameFactory = AllServices.Container.Single<IGameFactory>();
+            _saveLoadService = AllServices.Container.Single<ISaveLoadService>();
             
             _dragAndDrop = new DragAndDrop(DropFigure, PickFigure, PromotionFigure);
         }
@@ -43,7 +49,7 @@ namespace GameBoardBase
 
         public void StartGame()
         {
-            _chess = new Chess();
+            _chess = new Chess(_fen);
             
             UpdateChess.Invoke(_chess);
 
@@ -65,7 +71,20 @@ namespace GameBoardBase
         
         public void OpponentMove()
         {
-            StartCoroutine((IEnumerator)OpponentMoveCoroutine());
+            StartCoroutine(OpponentMoveCoroutine());
+        }
+        
+        public void Write(BoardProgress progress)
+        {
+            progress.Fen = _chess.Fen;
+        }
+
+        public void Read(BoardProgress progress)
+        {
+            if (progress.Fen != null)
+            {
+                _fen = progress.Fen;
+            }
         }
     }
 }

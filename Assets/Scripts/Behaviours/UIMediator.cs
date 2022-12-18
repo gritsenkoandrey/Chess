@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using ChessRules;
-using Interfaces;
+using OnlineChess.Scripts.Factory;
+using OnlineChess.Scripts.Infrastructure.Services;
+using OnlineChess.Scripts.Interfaces;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Behaviours
+namespace OnlineChess.Scripts.Behaviours
 {
     using Color = UnityEngine.Color;
 
@@ -19,6 +21,7 @@ namespace Behaviours
         [SerializeField] private TextMeshProUGUI _textUp;
         [SerializeField] private TextMeshProUGUI _textDown;
 
+        private IGameFactory _gameFactory;
         private IGameBoard _gameBoard;
         private IGameCamera _gameCamera;
         
@@ -26,13 +29,15 @@ namespace Behaviours
 
         private const float Speed = 0.75f;
 
-        public void Construct(IGameBoard gameBoard, IGameCamera gameCamera)
+        private void Awake()
         {
-            _gameBoard = gameBoard;
-            _gameCamera = gameCamera;
+            _gameFactory = AllServices.Container.Single<IGameFactory>();
+
+            _gameBoard = _gameFactory.GameBoard;
+            _gameCamera = _gameFactory.GameCamera;
         }
 
-        private void Start()
+        private void OnEnable()
         {
             _startButton.onClick.AddListener(StartGame);
             _restartButton.onClick.AddListener(RestartGame);

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Infrastructure
+namespace OnlineChess.Scripts.Infrastructure
 {
     public interface ICoroutineRunner
     {

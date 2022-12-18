@@ -1,4 +1,4 @@
-﻿namespace Interfaces
+﻿namespace OnlineChess.Scripts.Interfaces
 {
     public interface IGameCamera
     {

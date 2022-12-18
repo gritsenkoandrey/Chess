@@ -1,4 +1,4 @@
-﻿namespace Enums
+﻿namespace OnlineChess.Scripts.Enums
 {
     [System.Serializable]
     public enum FigureType

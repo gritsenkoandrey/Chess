@@ -1,7 +1,7 @@
-﻿using Enums;
+﻿using OnlineChess.Scripts.Enums;
 using UnityEngine;
 
-namespace Behaviours
+namespace OnlineChess.Scripts.Behaviours
 {
     public sealed class Figure : BaseObject
     {

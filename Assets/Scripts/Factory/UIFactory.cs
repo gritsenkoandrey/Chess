@@ -1,8 +1,8 @@
-﻿using Behaviours;
-using Data;
+﻿using OnlineChess.Scripts.Behaviours;
+using OnlineChess.Scripts.Data;
 using UnityEngine;
 
-namespace Factory
+namespace OnlineChess.Scripts.Factory
 {
     public sealed class UIFactory : IUIFactory
     {

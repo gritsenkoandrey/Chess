@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 
-namespace Infrastructure
+namespace OnlineChess.Scripts.Infrastructure.States
 {
     public sealed class GameLoopState : IState
     {
-        public GameLoopState(GameStateMachine gameStateMachine)
+        private readonly GameStateMachine _stateMachine;
+
+        public GameLoopState(GameStateMachine stateMachine)
         {
-            
+            _stateMachine = stateMachine;
         }
 
         public void Enter()

@@ -1,8 +1,8 @@
-﻿using Enums;
-using Interfaces;
-using Utils;
+﻿using OnlineChess.Scripts.Enums;
+using OnlineChess.Scripts.Interfaces;
+using OnlineChess.Scripts.Utils;
 
-namespace GameBoardBase
+namespace OnlineChess.Scripts.GameBoardBase
 {
     public partial class GameBoard
     {

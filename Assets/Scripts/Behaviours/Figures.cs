@@ -1,9 +1,9 @@
-﻿using Enums;
-using Interfaces;
+﻿using OnlineChess.Scripts.Enums;
+using OnlineChess.Scripts.Interfaces;
+using OnlineChess.Scripts.Utils;
 using UnityEngine;
-using Utils;
 
-namespace Behaviours
+namespace OnlineChess.Scripts.Behaviours
 {
     public sealed class Figures : BaseObject, IFigure
     {

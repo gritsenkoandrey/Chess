@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Data;
+using OnlineChess.Scripts.Factory;
+using OnlineChess.Scripts.Infrastructure.Services;
+using OnlineChess.Scripts.Services.PersistentProgress;
+using OnlineChess.Scripts.Services.SaveLoad;
 
-namespace Infrastructure
+namespace OnlineChess.Scripts.Infrastructure.States
 {
     public sealed class GameStateMachine
     {
@@ -10,12 +13,17 @@ namespace Infrastructure
         
         private IExitState _activeState;
 
-        public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain curtain, IAssetData assetData)
+        public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain curtain, AllServices services)
         {
             _states = new Dictionary<Type, IExitState>
             {
-                [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader),
-                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, curtain, assetData),
+                [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
+                [typeof(LoadProgressState)] = new LoadProgressState(this, services.Single<IPersistentProgressService>(), services.Single<ISaveLoadService>()),
+                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, curtain,
+                    services.Single<IGameFactory>(),
+                    services.Single<IUIFactory>(),
+                    services.Single<IPersistentProgressService>(),
+                    services.Single<ISaveLoadService>()),
                 [typeof(GameLoopState)] = new GameLoopState(this),
             };
         }

@@ -1,8 +1,9 @@
-﻿using Behaviours;
+﻿using OnlineChess.Scripts.Behaviours;
+using OnlineChess.Scripts.Infrastructure.Services;
 
-namespace Factory
+namespace OnlineChess.Scripts.Factory
 {
-    public interface IUIFactory
+    public interface IUIFactory : IService
     {
         public UIMediator CreateUIMediator();
     }

@@ -1,7 +1,7 @@
-﻿using Enums;
+﻿using OnlineChess.Scripts.Enums;
 using UnityEngine;
 
-namespace Interfaces
+namespace OnlineChess.Scripts.Interfaces
 {
     public interface IFigure
     {

@@ -1,8 +1,8 @@
-﻿using Behaviours;
+﻿using OnlineChess.Scripts.Behaviours;
 using UnityEngine;
-using GameBoard = GameBoardBase.GameBoard;
+using GameBoard = OnlineChess.Scripts.GameBoardBase.GameBoard;
 
-namespace Data
+namespace OnlineChess.Scripts.Data
 {
     [CreateAssetMenu(fileName = "GameAssetData", menuName = "Data/GameAssetData", order = 0)]
     public sealed class GameAssetData : ScriptableObject

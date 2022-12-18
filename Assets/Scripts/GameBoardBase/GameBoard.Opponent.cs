@@ -1,11 +1,11 @@
 ﻿using System.Collections;
-using Enums;
-using Extensions;
-using Interfaces;
+using OnlineChess.Scripts.Enums;
+using OnlineChess.Scripts.Extensions;
+using OnlineChess.Scripts.Interfaces;
+using OnlineChess.Scripts.Utils;
 using UnityEngine;
-using Utils;
 
-namespace GameBoardBase
+namespace OnlineChess.Scripts.GameBoardBase
 {
     public partial class GameBoard
     {
@@ -54,6 +54,8 @@ namespace GameBoardBase
             _chess = _chess.Move(move);
 
             UpdateChess.Invoke(_chess);
+            
+            _saveLoadService.SaveProgress();
 
             UpdateFigures();
             MarkCellsFrom();

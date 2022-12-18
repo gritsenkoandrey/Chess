@@ -1,8 +1,7 @@
-﻿using Data;
+﻿using OnlineChess.Scripts.Infrastructure.States;
 using UnityEngine;
-using Utils;
 
-namespace Infrastructure
+namespace OnlineChess.Scripts.Infrastructure
 {
     public sealed class GameBootstrapper : MonoBehaviour, ICoroutineRunner
     {
@@ -12,15 +11,18 @@ namespace Infrastructure
         
         private void Awake()
         {
-            IAssetData assetData = CustomResources.Load<IAssetData>();
-
-            _game = new Game(this, _curtain, assetData);
+            _game = new Game(this, Instantiate(_curtain, transform));
             
             _game.StateMachine.Enter<BootstrapState>();
             
-            Application.targetFrameRate = 60;
+            AppSettings();
 
             DontDestroyOnLoad(this);
+        }
+
+        private void AppSettings()
+        {
+            Application.targetFrameRate = 60;
         }
     }
 }

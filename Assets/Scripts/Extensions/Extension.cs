@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Extensions
+namespace OnlineChess.Scripts.Extensions
 {
     public static class Extension
     {
