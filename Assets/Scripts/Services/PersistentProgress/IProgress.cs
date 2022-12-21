@@ -1,6 +1,6 @@
-﻿using OnlineChess.Scripts.BoardProgressData;
+﻿using OnlineChess.BoardProgressData;
 
-namespace OnlineChess.Scripts.Services.PersistentProgress
+namespace OnlineChess.Services.PersistentProgress
 {
     public interface IProgress
     {

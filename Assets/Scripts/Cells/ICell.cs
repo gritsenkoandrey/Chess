@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace OnlineChess.Scripts.Cells
+namespace OnlineChess.Cells
 {
     public interface ICell
     {

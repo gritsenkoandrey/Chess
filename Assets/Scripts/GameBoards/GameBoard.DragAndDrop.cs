@@ -1,10 +1,10 @@
-﻿using OnlineChess.Scripts.Enums;
-using OnlineChess.Scripts.Extensions;
-using OnlineChess.Scripts.Figures;
-using OnlineChess.Scripts.Utils;
+﻿using OnlineChess.Enums;
+using OnlineChess.Extensions;
+using OnlineChess.Figures;
+using OnlineChess.Utils;
 using UnityEngine;
 
-namespace OnlineChess.Scripts.GameBoards
+namespace OnlineChess.GameBoards
 {
     public partial class GameBoard
     {

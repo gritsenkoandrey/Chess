@@ -1,7 +1,7 @@
-﻿using OnlineChess.Scripts.Infrastructure.States;
+﻿using OnlineChess.Infrastructure.States;
 using UnityEngine;
 
-namespace OnlineChess.Scripts.Infrastructure
+namespace OnlineChess.Infrastructure
 {
     public sealed class GameBootstrapper : MonoBehaviour, ICoroutineRunner
     {

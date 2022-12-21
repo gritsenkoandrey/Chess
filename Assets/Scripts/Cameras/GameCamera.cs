@@ -1,8 +1,8 @@
 ﻿using Cinemachine;
-using OnlineChess.Scripts.Behaviours;
+using OnlineChess.Behaviours;
 using UnityEngine;
 
-namespace OnlineChess.Scripts.Cameras
+namespace OnlineChess.Cameras
 {
     public sealed class GameCamera : BaseObject, IGameCamera
     {

@@ -1,9 +1,9 @@
-﻿using OnlineChess.Scripts.Behaviours;
-using OnlineChess.Scripts.Enums;
-using OnlineChess.Scripts.Utils;
+﻿using OnlineChess.Behaviours;
+using OnlineChess.Enums;
+using OnlineChess.Utils;
 using UnityEngine;
 
-namespace OnlineChess.Scripts.Figures
+namespace OnlineChess.Figures
 {
     public sealed class FigureMediator : BaseObject, IFigure
     {

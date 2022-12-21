@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using OnlineChess.Scripts.Enums;
-using OnlineChess.Scripts.Extensions;
-using OnlineChess.Scripts.Utils;
+using OnlineChess.Enums;
+using OnlineChess.Extensions;
+using OnlineChess.Utils;
 using UnityEngine;
 
-namespace OnlineChess.Scripts.DragDrop
+namespace OnlineChess.DragDrop
 {
     public sealed class DragAndDrop : IDragAndDrop
     {

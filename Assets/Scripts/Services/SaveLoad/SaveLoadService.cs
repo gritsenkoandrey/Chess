@@ -1,9 +1,9 @@
-﻿using OnlineChess.Scripts.BoardProgressData;
-using OnlineChess.Scripts.Services.Factories;
-using OnlineChess.Scripts.Services.PersistentProgress;
+﻿using OnlineChess.BoardProgressData;
+using OnlineChess.Services.Factories;
+using OnlineChess.Services.PersistentProgress;
 using UnityEngine;
 
-namespace OnlineChess.Scripts.Services.SaveLoad
+namespace OnlineChess.Services.SaveLoad
 {
     public sealed class SaveLoadService : ISaveLoadService
     {

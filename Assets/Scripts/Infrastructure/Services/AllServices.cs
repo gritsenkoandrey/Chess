@@ -1,4 +1,4 @@
-﻿namespace OnlineChess.Scripts.Infrastructure.Services
+﻿namespace OnlineChess.Infrastructure.Services
 {
     public sealed class AllServices
     {

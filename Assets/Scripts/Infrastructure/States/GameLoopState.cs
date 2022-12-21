@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace OnlineChess.Scripts.Infrastructure.States
+namespace OnlineChess.Infrastructure.States
 {
     public sealed class GameLoopState : IState
     {

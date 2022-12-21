@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace OnlineChess.Scripts.Infrastructure
+namespace OnlineChess.Infrastructure
 {
     public sealed class SceneLoader
     {

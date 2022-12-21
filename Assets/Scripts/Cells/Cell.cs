@@ -1,7 +1,7 @@
-﻿using OnlineChess.Scripts.Behaviours;
+﻿using OnlineChess.Behaviours;
 using UnityEngine;
 
-namespace OnlineChess.Scripts.Cells
+namespace OnlineChess.Cells
 {
     public sealed class Cell : BaseObject, ICell
     {

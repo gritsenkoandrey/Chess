@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace OnlineChess.Scripts.Utils
+namespace OnlineChess.Utils
 {
     public static class BezierCurves
     {

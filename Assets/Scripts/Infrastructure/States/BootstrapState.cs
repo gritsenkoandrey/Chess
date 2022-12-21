@@ -1,12 +1,12 @@
-﻿using OnlineChess.Scripts.Infrastructure.Services;
-using OnlineChess.Scripts.Services.Data;
-using OnlineChess.Scripts.Services.Factories;
-using OnlineChess.Scripts.Services.PersistentProgress;
-using OnlineChess.Scripts.Services.SaveLoad;
-using OnlineChess.Scripts.Utils;
+﻿using OnlineChess.Infrastructure.Services;
+using OnlineChess.Services.Data;
+using OnlineChess.Services.Factories;
+using OnlineChess.Services.PersistentProgress;
+using OnlineChess.Services.SaveLoad;
+using OnlineChess.Utils;
 using UnityEngine;
 
-namespace OnlineChess.Scripts.Infrastructure.States
+namespace OnlineChess.Infrastructure.States
 {
     public sealed class BootstrapState : IState
     {

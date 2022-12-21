@@ -1,4 +1,4 @@
-﻿namespace OnlineChess.Scripts.Enums
+﻿namespace OnlineChess.Enums
 {
     [System.Serializable]
     public enum CellMarkType : byte

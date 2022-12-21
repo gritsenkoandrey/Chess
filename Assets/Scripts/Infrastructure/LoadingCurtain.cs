@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace OnlineChess.Scripts.Infrastructure
+namespace OnlineChess.Infrastructure
 {
     public sealed class LoadingCurtain : MonoBehaviour
     {

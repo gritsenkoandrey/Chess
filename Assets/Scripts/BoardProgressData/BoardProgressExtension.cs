@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace OnlineChess.Scripts.BoardProgressData
+namespace OnlineChess.BoardProgressData
 {
     public static class BoardProgressExtension
     {

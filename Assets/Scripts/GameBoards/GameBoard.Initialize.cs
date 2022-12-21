@@ -1,9 +1,9 @@
-﻿using OnlineChess.Scripts.Cells;
-using OnlineChess.Scripts.Enums;
-using OnlineChess.Scripts.Figures;
+﻿using OnlineChess.Cells;
+using OnlineChess.Enums;
+using OnlineChess.Figures;
 using UnityEngine;
 
-namespace OnlineChess.Scripts.GameBoards
+namespace OnlineChess.GameBoards
 {
     public partial class GameBoard
     {

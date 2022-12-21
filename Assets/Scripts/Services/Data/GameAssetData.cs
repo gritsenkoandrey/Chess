@@ -1,10 +1,10 @@
-﻿using OnlineChess.Scripts.Cameras;
-using OnlineChess.Scripts.Cells;
-using OnlineChess.Scripts.Figures;
+﻿using OnlineChess.Cameras;
+using OnlineChess.Cells;
+using OnlineChess.Figures;
 using UnityEngine;
-using GameBoard = OnlineChess.Scripts.GameBoards.GameBoard;
+using GameBoard = OnlineChess.GameBoards.GameBoard;
 
-namespace OnlineChess.Scripts.Services.Data
+namespace OnlineChess.Services.Data
 {
     [CreateAssetMenu(fileName = "GameAssetData", menuName = "Data/GameAssetData", order = 0)]
     public sealed class GameAssetData : ScriptableObject

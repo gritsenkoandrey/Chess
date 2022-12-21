@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
-using OnlineChess.Scripts.Behaviours;
-using OnlineChess.Scripts.Cameras;
-using OnlineChess.Scripts.Cells;
-using OnlineChess.Scripts.Figures;
-using OnlineChess.Scripts.GameBoards;
-using OnlineChess.Scripts.Services.Data;
-using OnlineChess.Scripts.Services.PersistentProgress;
-using OnlineChess.Scripts.UI;
+using OnlineChess.Cameras;
+using OnlineChess.Cells;
+using OnlineChess.Figures;
+using OnlineChess.GameBoards;
+using OnlineChess.Services.Data;
+using OnlineChess.Services.PersistentProgress;
+using OnlineChess.UI;
 using UnityEngine;
 
-namespace OnlineChess.Scripts.Services.Factories
+namespace OnlineChess.Services.Factories
 {
     public sealed class GameFactory : IGameFactory
     {

@@ -1,7 +1,7 @@
-﻿using OnlineChess.Scripts.Services.Data;
+﻿using OnlineChess.Services.Data;
 using UnityEngine;
 
-namespace OnlineChess.Scripts.Utils
+namespace OnlineChess.Utils
 {
     public static class CustomResources
     {

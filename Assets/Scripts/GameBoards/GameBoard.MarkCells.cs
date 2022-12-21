@@ -1,7 +1,7 @@
-﻿using OnlineChess.Scripts.Enums;
+﻿using OnlineChess.Enums;
 using UnityEngine;
 
-namespace OnlineChess.Scripts.GameBoards
+namespace OnlineChess.GameBoards
 {
     public partial class GameBoard
     {

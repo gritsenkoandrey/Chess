@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace OnlineChess.Scripts.Behaviours
+namespace OnlineChess.Behaviours
 {
     public abstract class BaseObject : MonoBehaviour { }
 }

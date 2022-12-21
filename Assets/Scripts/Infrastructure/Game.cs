@@ -1,7 +1,7 @@
-﻿using OnlineChess.Scripts.Infrastructure.Services;
-using OnlineChess.Scripts.Infrastructure.States;
+﻿using OnlineChess.Infrastructure.Services;
+using OnlineChess.Infrastructure.States;
 
-namespace OnlineChess.Scripts.Infrastructure
+namespace OnlineChess.Infrastructure
 {
     public sealed class Game
     {

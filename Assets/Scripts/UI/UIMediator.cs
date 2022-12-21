@@ -1,18 +1,18 @@
 ﻿using ChessRules;
-using OnlineChess.Scripts.Behaviours;
-using OnlineChess.Scripts.BoardProgressData;
-using OnlineChess.Scripts.Cameras;
-using OnlineChess.Scripts.Extensions;
-using OnlineChess.Scripts.GameBoards;
-using OnlineChess.Scripts.Infrastructure.Services;
-using OnlineChess.Scripts.Services.Factories;
-using OnlineChess.Scripts.Services.PersistentProgress;
-using OnlineChess.Scripts.Services.SaveLoad;
+using OnlineChess.Behaviours;
+using OnlineChess.BoardProgressData;
+using OnlineChess.Cameras;
+using OnlineChess.Extensions;
+using OnlineChess.GameBoards;
+using OnlineChess.Infrastructure.Services;
+using OnlineChess.Services.Factories;
+using OnlineChess.Services.PersistentProgress;
+using OnlineChess.Services.SaveLoad;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace OnlineChess.Scripts.UI
+namespace OnlineChess.UI
 {
     public sealed class UIMediator : BaseObject, IProgressReader, IProgressWriter
     {

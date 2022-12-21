@@ -1,6 +1,6 @@
-﻿using OnlineChess.Scripts.Enums;
+﻿using OnlineChess.Enums;
 
-namespace OnlineChess.Scripts.DragDrop
+namespace OnlineChess.DragDrop
 {
     public interface IDragAndDrop
     {

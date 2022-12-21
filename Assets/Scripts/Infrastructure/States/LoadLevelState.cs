@@ -1,8 +1,8 @@
-﻿using OnlineChess.Scripts.Services.Factories;
-using OnlineChess.Scripts.Services.PersistentProgress;
+﻿using OnlineChess.Services.Factories;
+using OnlineChess.Services.PersistentProgress;
 using UnityEngine;
 
-namespace OnlineChess.Scripts.Infrastructure.States
+namespace OnlineChess.Infrastructure.States
 {
     public sealed class LoadLevelState : ILoadState<string>
     {

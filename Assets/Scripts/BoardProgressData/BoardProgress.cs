@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OnlineChess.Scripts.BoardProgressData
+namespace OnlineChess.BoardProgressData
 {
     [Serializable]
     public sealed class BoardProgress

@@ -2,8 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-
-namespace OnlineChess.Scripts.Extensions
+namespace OnlineChess.Extensions
 {
     public static class UIAnimationExtension
     {

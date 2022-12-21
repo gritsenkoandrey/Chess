@@ -1,4 +1,4 @@
-﻿namespace OnlineChess.Scripts.Infrastructure.States
+﻿namespace OnlineChess.Infrastructure.States
 {
     public interface ILoadState<in TLoad> : IExitState
     {

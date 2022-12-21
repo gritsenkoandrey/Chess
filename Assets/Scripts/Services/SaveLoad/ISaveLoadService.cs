@@ -1,7 +1,7 @@
-﻿using OnlineChess.Scripts.BoardProgressData;
-using OnlineChess.Scripts.Infrastructure.Services;
+﻿using OnlineChess.BoardProgressData;
+using OnlineChess.Infrastructure.Services;
 
-namespace OnlineChess.Scripts.Services.SaveLoad
+namespace OnlineChess.Services.SaveLoad
 {
     public interface ISaveLoadService : IService
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using ChessRules;
 
-namespace OnlineChess.Scripts.GameBoards
+namespace OnlineChess.GameBoards
 {
     public interface IGameBoard
     {

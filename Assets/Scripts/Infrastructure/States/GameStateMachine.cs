@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using OnlineChess.Scripts.Infrastructure.Services;
-using OnlineChess.Scripts.Services.Factories;
-using OnlineChess.Scripts.Services.PersistentProgress;
-using OnlineChess.Scripts.Services.SaveLoad;
+using OnlineChess.Infrastructure.Services;
+using OnlineChess.Services.Factories;
+using OnlineChess.Services.PersistentProgress;
+using OnlineChess.Services.SaveLoad;
 
-namespace OnlineChess.Scripts.Infrastructure.States
+namespace OnlineChess.Infrastructure.States
 {
     public sealed class GameStateMachine
     {

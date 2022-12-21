@@ -1,6 +1,6 @@
-﻿using OnlineChess.Scripts.Infrastructure.Services;
+﻿using OnlineChess.Infrastructure.Services;
 
-namespace OnlineChess.Scripts.Services.Data
+namespace OnlineChess.Services.Data
 {
     public interface IAssetData : IService
     {

@@ -1,18 +1,18 @@
 using System;
 using System.Collections.Generic;
 using ChessRules;
-using OnlineChess.Scripts.Behaviours;
-using OnlineChess.Scripts.BoardProgressData;
-using OnlineChess.Scripts.Cells;
-using OnlineChess.Scripts.DragDrop;
-using OnlineChess.Scripts.Enums;
-using OnlineChess.Scripts.Figures;
-using OnlineChess.Scripts.Infrastructure.Services;
-using OnlineChess.Scripts.Services.Factories;
-using OnlineChess.Scripts.Services.PersistentProgress;
+using OnlineChess.Behaviours;
+using OnlineChess.BoardProgressData;
+using OnlineChess.Cells;
+using OnlineChess.DragDrop;
+using OnlineChess.Enums;
+using OnlineChess.Figures;
+using OnlineChess.Infrastructure.Services;
+using OnlineChess.Services.Factories;
+using OnlineChess.Services.PersistentProgress;
 using UnityEngine;
 
-namespace OnlineChess.Scripts.GameBoards
+namespace OnlineChess.GameBoards
 {
     public partial class GameBoard : BaseObject, IGameBoard, IProgressWriter, IProgressReader
     {

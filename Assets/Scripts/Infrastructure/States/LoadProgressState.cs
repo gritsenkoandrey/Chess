@@ -1,9 +1,9 @@
-﻿using OnlineChess.Scripts.BoardProgressData;
-using OnlineChess.Scripts.Services.PersistentProgress;
-using OnlineChess.Scripts.Services.SaveLoad;
+﻿using OnlineChess.BoardProgressData;
+using OnlineChess.Services.PersistentProgress;
+using OnlineChess.Services.SaveLoad;
 using UnityEngine;
 
-namespace OnlineChess.Scripts.Infrastructure.States
+namespace OnlineChess.Infrastructure.States
 {
     public sealed class LoadProgressState : IState
     {
