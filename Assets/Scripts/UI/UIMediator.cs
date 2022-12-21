@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using ChessRules;
+﻿using ChessRules;
 using OnlineChess.Scripts.Behaviours;
 using OnlineChess.Scripts.BoardProgressData;
 using OnlineChess.Scripts.Cameras;
+using OnlineChess.Scripts.Extensions;
 using OnlineChess.Scripts.GameBoards;
 using OnlineChess.Scripts.Infrastructure.Services;
 using OnlineChess.Scripts.Services.Factories;
@@ -14,8 +14,6 @@ using UnityEngine.UI;
 
 namespace OnlineChess.Scripts.UI
 {
-    using Color = UnityEngine.Color;
-
     public sealed class UIMediator : BaseObject, IProgressReader, IProgressWriter
     {
         [SerializeField] private Button _startButton;
@@ -30,7 +28,7 @@ namespace OnlineChess.Scripts.UI
         private IGameCamera _gameCamera;
         private ISaveLoadService _saveLoadService;
         
-        private int _turn = 1;
+        private int _turn;
 
         private const float Speed = 0.75f;
 
@@ -65,9 +63,9 @@ namespace OnlineChess.Scripts.UI
 
             _gameBoard.StartGame();
 
-            StartCoroutine(ImageFadeAndScale(_crown));
+            StartCoroutine(_crown.ImageFadeAndScale(Speed));
 
-            StartCoroutine(ButtonScaleZero(_startButton));
+            StartCoroutine(_startButton.ButtonScaleZero(Speed));
         }
 
         private void RestartGame()
@@ -76,14 +74,14 @@ namespace OnlineChess.Scripts.UI
             
             _gameBoard.RestartGame();
 
-            StartCoroutine(ButtonScaleZero(_restartButton));
+            StartCoroutine(_restartButton.ButtonScaleZero(Speed));
         }
 
         private void EndGame()
         {
             _gameCamera.EndGame();
                 
-            StartCoroutine(ButtonScaleOne(_restartButton));
+            StartCoroutine(_restartButton.ButtonScaleOne(Speed));
         }
 
         private void UpdateChess(Chess chess)
@@ -130,79 +128,6 @@ namespace OnlineChess.Scripts.UI
         }
 
         private void ChangeTurn() => _turn++;
-
-        private static IEnumerator ButtonScaleZero(Button button)
-        {
-            button.transform.localScale = Vector3.one;
-            
-            button.interactable = false;
-
-            float scale = 1f;
-            
-            while (scale > 0f)
-            {
-                yield return null;
-
-                scale -= Time.deltaTime * Speed;
-
-                button.transform.localScale = Vector3.one * EaseOutBack(scale);
-            }
-            
-            button.interactable = true;
-            
-            button.gameObject.SetActive(false);
-        }
-        private static IEnumerator ButtonScaleOne(Button button)
-        {
-            button.gameObject.SetActive(true);
-
-            button.transform.localScale = Vector3.zero;
-
-            button.interactable = false;
-            
-            float scale = 0f;
-
-            while (scale < 1f)
-            {
-                yield return null;
-
-                scale += Time.deltaTime * Speed;
-
-                button.transform.localScale = Vector3.one * EaseOutBack(scale);
-            }
-            
-            button.interactable = true;
-        }
-        private static IEnumerator ImageFadeAndScale(Image image)
-        {
-            Color c = image.color;
-            float scale = 1f;
-            float fade = 1f;
-
-            while (fade > 0f)
-            {
-                yield return null;
-                
-                scale += Time.deltaTime * Speed;
-                fade -= Time.deltaTime * Speed;
-
-                image.transform.localScale = Vector3.one * scale;
-
-                Color color = new Color(c.r, c.g, c.b, fade);
-
-                image.color = color;
-            }
-            
-            image.gameObject.SetActive(false);
-        }
-        
-        private static float EaseOutBack(float number)
-        {
-            float c1 = 0.70158f;
-            float c3 = c1 + 1f;
-
-            return 1f + c3 * Mathf.Pow(number - 1f, 3) + c1 * Mathf.Pow(number - 1f, 2);
-        }
 
         public void Read(BoardProgress progress) => _turn = progress.Turn;
         public void Write(BoardProgress progress) => progress.Turn = _turn;
