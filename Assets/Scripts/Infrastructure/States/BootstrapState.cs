@@ -1,6 +1,6 @@
-﻿using OnlineChess.Scripts.Data;
-using OnlineChess.Scripts.Factory;
-using OnlineChess.Scripts.Infrastructure.Services;
+﻿using OnlineChess.Scripts.Infrastructure.Services;
+using OnlineChess.Scripts.Services.Data;
+using OnlineChess.Scripts.Services.Factories;
 using OnlineChess.Scripts.Services.PersistentProgress;
 using OnlineChess.Scripts.Services.SaveLoad;
 using OnlineChess.Scripts.Utils;
@@ -46,9 +46,8 @@ namespace OnlineChess.Scripts.Infrastructure.States
         {
             _services.RegisterSingle(CustomResources.Load<IAssetData>());
             _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssetData>()));
-            _services.RegisterSingle<IUIFactory>(new UIFactory(_services.Single<IAssetData>()));
             _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
-            _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>(), _services.Single<IGameFactory>(), _services.Single<IUIFactory>()));
+            _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>(), _services.Single<IGameFactory>()));
         }
     }
 }

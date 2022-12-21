@@ -1,4 +1,4 @@
-﻿using OnlineChess.Scripts.Data;
+﻿using OnlineChess.Scripts.Services.Data;
 using UnityEngine;
 
 namespace OnlineChess.Scripts.Utils

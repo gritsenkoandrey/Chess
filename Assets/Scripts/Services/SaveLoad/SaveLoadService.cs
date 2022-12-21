@@ -1,5 +1,5 @@
 ﻿using OnlineChess.Scripts.BoardProgressData;
-using OnlineChess.Scripts.Factory;
+using OnlineChess.Scripts.Services.Factories;
 using OnlineChess.Scripts.Services.PersistentProgress;
 using UnityEngine;
 
@@ -9,15 +9,13 @@ namespace OnlineChess.Scripts.Services.SaveLoad
     {
         private readonly IPersistentProgressService _progressService;
         private readonly IGameFactory _gameFactory;
-        private readonly IUIFactory _uiFactory;
         
         private const string Key = nameof(BoardProgress);
 
-        public SaveLoadService(IPersistentProgressService progressService, IGameFactory gameFactory, IUIFactory uiFactory)
+        public SaveLoadService(IPersistentProgressService progressService, IGameFactory gameFactory)
         {
             _progressService = progressService;
             _gameFactory = gameFactory;
-            _uiFactory = uiFactory;
         }
         
         public void SaveProgress()

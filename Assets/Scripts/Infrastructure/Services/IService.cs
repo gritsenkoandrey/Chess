@@ -1,6 +1,4 @@
 ﻿namespace OnlineChess.Scripts.Infrastructure.Services
 {
-    public interface IService
-    {
-    }
+    public interface IService { }
 }

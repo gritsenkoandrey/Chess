@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using OnlineChess.Scripts.Factory;
 using OnlineChess.Scripts.Infrastructure.Services;
+using OnlineChess.Scripts.Services.Factories;
 using OnlineChess.Scripts.Services.PersistentProgress;
 using OnlineChess.Scripts.Services.SaveLoad;
 
@@ -19,11 +19,7 @@ namespace OnlineChess.Scripts.Infrastructure.States
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
                 [typeof(LoadProgressState)] = new LoadProgressState(this, services.Single<IPersistentProgressService>(), services.Single<ISaveLoadService>()),
-                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, curtain,
-                    services.Single<IGameFactory>(),
-                    services.Single<IUIFactory>(),
-                    services.Single<IPersistentProgressService>(),
-                    services.Single<ISaveLoadService>()),
+                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, curtain,services.Single<IGameFactory>(), services.Single<IPersistentProgressService>()),
                 [typeof(GameLoopState)] = new GameLoopState(this),
             };
         }
