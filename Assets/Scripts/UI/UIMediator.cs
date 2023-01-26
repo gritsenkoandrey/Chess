@@ -5,7 +5,6 @@ using OnlineChess.Cameras;
 using OnlineChess.Extensions;
 using OnlineChess.GameBoards;
 using OnlineChess.Infrastructure.Services;
-using OnlineChess.Services.Factories;
 using OnlineChess.Services.PersistentProgress;
 using OnlineChess.Services.SaveLoad;
 using TMPro;
@@ -32,23 +31,24 @@ namespace OnlineChess.UI
 
         private const float Speed = 0.75f;
 
-        private void Awake()
+        public void Construct(IGameBoard gameBoard, IGameCamera gameCamera)
         {
-            _gameBoard = AllServices.Container.Single<IGameFactory>().GameBoard;
-            _gameCamera = AllServices.Container.Single<IGameFactory>().GameCamera;
-            _saveLoadService = AllServices.Container.Single<ISaveLoadService>();
-        }
-
-        private void OnEnable()
-        {
-            _startButton.onClick.AddListener(StartGame);
-            _restartButton.onClick.AddListener(RestartGame);
+            _gameBoard = gameBoard;
+            _gameCamera = gameCamera;
             
             _gameBoard.UpdateChess += UpdateChess;
             _gameBoard.ChangeTurn += ChangeTurn;
+            
+            _startButton.onClick.AddListener(StartGame);
+            _restartButton.onClick.AddListener(RestartGame);
         }
 
-        private void OnDisable()
+        private void Awake()
+        {
+            _saveLoadService = AllServices.Container.Single<ISaveLoadService>();
+        }
+
+        private void OnDestroy()
         {
             _startButton.onClick.RemoveListener(StartGame);
             _restartButton.onClick.RemoveListener(RestartGame);

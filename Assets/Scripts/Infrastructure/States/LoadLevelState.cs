@@ -1,4 +1,6 @@
-﻿using OnlineChess.Services.Factories;
+﻿using OnlineChess.Cameras;
+using OnlineChess.GameBoards;
+using OnlineChess.Services.Factories;
 using OnlineChess.Services.PersistentProgress;
 using UnityEngine;
 
@@ -47,9 +49,10 @@ namespace OnlineChess.Infrastructure.States
 
         private void OnLoaded()
         {
-            _gameFactory.CreateGameBoard();
-            _gameFactory.CreateGameCamera();
-            _gameFactory.CreateUIMediator();
+            IGameBoard gameBoard = _gameFactory.CreateGameBoard();
+            IGameCamera gameCamera = _gameFactory.CreateGameCamera();
+            
+            _gameFactory.CreateUIMediator().Construct(gameBoard, gameCamera);
 
             ReadProgress();
             

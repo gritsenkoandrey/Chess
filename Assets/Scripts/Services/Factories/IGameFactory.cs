@@ -12,9 +12,6 @@ namespace OnlineChess.Services.Factories
 {
     public interface IGameFactory : IService
     {
-        public IGameBoard GameBoard { get; }
-        public IGameCamera GameCamera { get; }
-
         public IFigure CreateFigure(Vector3 pos, Quaternion rot, Transform parent);
         public ICell CreateCell(Vector3 pos, Quaternion rot, Transform parent);
         public IGameBoard CreateGameBoard();
