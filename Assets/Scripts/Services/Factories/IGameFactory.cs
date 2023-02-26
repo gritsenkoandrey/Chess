@@ -17,10 +17,8 @@ namespace OnlineChess.Services.Factories
         public IGameBoard CreateGameBoard();
         public IGameCamera CreateGameCamera();
         public UIMediator CreateUIMediator();
-        
         public List<IProgressReader> ProgressReaders { get; }
         public List<IProgressWriter> ProgressWriters { get; }
-
         public void Cleanup();
     }
 }

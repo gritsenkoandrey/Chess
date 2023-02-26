@@ -13,10 +13,6 @@ namespace OnlineChess.Services.Factories
     public sealed class GameFactory : IGameFactory
     {
         private readonly IAssetData _assetData;
-        
-        public IGameBoard GameBoard { get; private set; }
-        public IGameCamera GameCamera { get; private set; }
-
         public List<IProgressReader> ProgressReaders { get; } = new();
         public List<IProgressWriter> ProgressWriters { get; } = new();
 
@@ -37,16 +33,16 @@ namespace OnlineChess.Services.Factories
 
         public IGameBoard CreateGameBoard()
         {
-            GameBoard = Object.Instantiate(_assetData.GameAssetData.GameBoard);
+            GameBoard gameBoard = Object.Instantiate(_assetData.GameAssetData.GameBoard);
             
-            Registered((GameBoard)GameBoard);
+            Registered(gameBoard);
             
-            return GameBoard;
+            return gameBoard;
         }
 
         public IGameCamera CreateGameCamera()
         {
-            return GameCamera = Object.Instantiate(_assetData.GameAssetData.GameCamera);
+            return Object.Instantiate(_assetData.GameAssetData.GameCamera);
         }
         
         public UIMediator CreateUIMediator()

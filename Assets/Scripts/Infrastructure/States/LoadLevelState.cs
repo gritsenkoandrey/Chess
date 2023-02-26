@@ -49,14 +49,18 @@ namespace OnlineChess.Infrastructure.States
 
         private void OnLoaded()
         {
-            IGameBoard gameBoard = _gameFactory.CreateGameBoard();
-            IGameCamera gameCamera = _gameFactory.CreateGameCamera();
-            
-            _gameFactory.CreateUIMediator().Construct(gameBoard, gameCamera);
-
+            InitGameWorld();
             ReadProgress();
             
             _stateMachine.Enter<GameLoopState>();
+        }
+
+        private void InitGameWorld()
+        {
+            IGameBoard gameBoard = _gameFactory.CreateGameBoard();
+            IGameCamera gameCamera = _gameFactory.CreateGameCamera();
+
+            _gameFactory.CreateUIMediator().Construct(gameBoard, gameCamera);
         }
 
         private void ReadProgress()
